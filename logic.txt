@@ -1,0 +1,46 @@
+Info
+{
+	Color
+	Type
+}
+
+///////////
+
+Cell
+{
+	IFigure*
+}
+
+///////////
+Coordinate
+{
+	x
+	y
+}
+
+//////////
+
+IFigure
+Figure: public IFigure
+{
+	Coordinate
+} 
+
+////////////
+Board
+{
+	Cell
+}
+
+///////////
+Chess
+{
+	Board
+	Player[2]
+}
+
+move logic:
+	Chess move (from, to)
+	Board move (from, to)
+	Cell move (from, to)
+	Figure move (from, to)
