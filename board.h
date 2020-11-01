@@ -1,10 +1,22 @@
 #pragma once
 #include <string>
 #include "cell.h"
+#include "figure.h"
 
 class Board
 {
-    Cell m_state[8][8];
+    Cell m_state[8][8] = {
+        {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+        {Cell(new Pawn(1, 'a', Color::Black)),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+
+        {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+        {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+        {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+        {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+
+        {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+        {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
+    };
     Board() = default;
 public:
     static Board& instance();
