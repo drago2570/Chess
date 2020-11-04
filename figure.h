@@ -10,6 +10,9 @@ public:
     explicit IFigure(int x, char y, Color color, Type type)
         : m_info{x, y, color, type}
     {}
+    explicit IFigure()
+        : m_info{}
+    {}
     virtual void Move(Coordinate To) = 0;
 
     Coordinate getCoordinate() const;
@@ -77,7 +80,8 @@ public:
 class Empty final : public IFigure
 {
 public:
-    Empty(int x = -1, char y = 'z') : IFigure(x, y, Color::None, Type::Empty)
+    Empty() : IFigure() {}
+    Empty(int x, char y) : IFigure(x, y, Color::None, Type::Empty)
     {}
     void Move(Coordinate To) final override;
 
