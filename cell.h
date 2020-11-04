@@ -1,12 +1,19 @@
 #pragma once
 #include "figure.h"
 
-struct Cell
+struct Cell final
 {
-    IFigure* m_figure;
+    IFigure* figure;
 
-    Cell() = default;
-    Cell(IFigure* figure)
-        : m_figure{figure}
+    Cell()
+        :figure{new Empty()}
     {}
+    Cell(IFigure* figure)
+        : figure{figure}
+    {}
+
+    ~Cell()
+    {
+        delete figure;
+    }
 };

@@ -4,5 +4,6 @@
 int main()
 {
     Chess chess;
+    chess.run();
     return 0;
 }

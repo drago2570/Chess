@@ -4,64 +4,82 @@
 
 class IFigure
 {
-    Coordinate m_coordinate;
+protected:
     Info m_info;
 public:
-    virtual void Move(Coordinate From, Coordinate To) = 0;
-    explicit IFigure(short int x, char y, Info info = {})
-        :m_coordinate{Coordinate(x, y)},
-         m_info{info}
+    explicit IFigure(int x, char y, Color color, Type type)
+        : m_info{x, y, color, type}
     {}
+    virtual void Move(Coordinate To) = 0;
 
-    virtual ~IFigure();
+    Coordinate getCoordinate() const;
+    Info GetInfo() const;
+
+    virtual ~IFigure() {}
 };
 
-class Pawn : public IFigure
+class Pawn final : public IFigure
 {
 public:
-    Pawn(short int x, char y, Color color) : IFigure(x, y, Info(color, Type::Pawn))
+    Pawn(int x, char y, Color color) : IFigure(x, y, color, Type::Pawn)
     {}
-    void Move(Coordinate From, Coordinate To) override;
+    void Move(Coordinate To) final override;
+
+    ~Pawn(){}
 };
 
 
-class King : public IFigure
+class King final : public IFigure
 {
 public:
-    King(short int x, char y, Color color) : IFigure(x, y, Info(color, Type::King))
+    King(int x, char y, Color color) : IFigure(x, y, color, Type::King)
     {}
+    void Move(Coordinate To) final override;
+    ~King() {}
 };
 
-class Queen : public IFigure
+class Queen final : public IFigure
 {
 public:
-    Queen(short int x, char y, Color color) : IFigure(x, y, Info(color, Type::Queen))
+    Queen(int x, char y, Color color) : IFigure(x, y, color, Type::Queen)
     {}
+    void Move(Coordinate To) final override;
+    ~Queen() {}
 };
 
-class Bishop : public IFigure
+class Bishop final : public IFigure
 {
 public:
-    Bishop(short int x, char y, Color color) : IFigure(x, y, Info(color, Type::Bishop))
+    Bishop(int x, char y, Color color) : IFigure(x, y,color, Type::Bishop)
     {}
+    void Move(Coordinate To) final override;
+    ~Bishop() {}
 };
 
-class Knight : public IFigure
+class Knight final : public IFigure
 {
 public:
-    Knight(short int x, char y, Color color) : IFigure(x, y, Info(color, Type::Knight))
+    Knight(int x, char y, Color color) : IFigure(x, y, color, Type::Knight)
     {}
+    void Move(Coordinate To) final override;
+    ~Knight() {}
 };
 
-class Rook : public IFigure
+class Rook final : public IFigure
 {
 public:
-    Rook(short int x, char y, Color color) : IFigure(x, y, Info(color, Type::Rook))
+    Rook(int x, char y, Color color) : IFigure(x, y, color, Type::Rook)
     {}
+    void Move(Coordinate To) final override;
+    ~Rook() {}
 };
 
-class Empty : public IFigure
+class Empty final : public IFigure
 {
-    Empty(short int x, char y, Color color = Color::None) : IFigure(x, y)
+public:
+    Empty(int x = -1, char y = 'z') : IFigure(x, y, Color::None, Type::Empty)
     {}
+    void Move(Coordinate To) final override;
+
+    ~Empty() {}
 };

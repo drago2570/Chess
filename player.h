@@ -3,7 +3,7 @@
 #include "coordinate.h"
 #include "cell.h"
 
-class Player
+class Player final
 {
     std::vector<Coordinate> m_avaliableFigureToReturn;
     std::vector<Cell> m_allAvaliableFigures;
