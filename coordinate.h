@@ -1,6 +1,7 @@
 #pragma once
+#include <map>
 
-struct Coordinate
+struct Coordinate final
 {
     short int x;
     char y;
@@ -9,5 +10,12 @@ struct Coordinate
         :x{x}, y{y}
        {}
 
-    Coordinate() = default;
+    Coordinate()
+        : x{-1}, y{'z'}
+    {}
+
+    static std::pair<int, int>GetXY(Coordinate coordinate)
+    {
+        return {coordinate.x, coordinate.y - 'a'};
+    }
 };

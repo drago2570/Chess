@@ -1,4 +1,5 @@
 #pragma once
+#include "coordinate.h"
 
 enum class Type
 {
@@ -18,17 +19,19 @@ enum class Color
     None
 };
 
-struct Info
+struct Info final
 {
-    Color m_color;
-    Type m_type;
+    Color color;
+    Type type;
+    Coordinate coordinate;
 
     Info()
-        : m_color{Color::None},
-          m_type{Type::Empty}
+        : color{Color::None},
+          type{Type::Empty}
        {}
-    Info(Color color, Type type)
-        : m_color{color},
-          m_type{type}
+    Info(int x, char y, Color color, Type type)
+        : color{color},
+          type{type},
+          coordinate{Coordinate(x,y)}
     {}
 };
