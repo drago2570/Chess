@@ -63,7 +63,6 @@ void Board::DrawBoard() const noexcept
                    data += "  ";
                  break;
                 default:
-
                 break;
             }
             std::cout << data + "|";
