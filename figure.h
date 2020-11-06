@@ -1,11 +1,12 @@
 #pragma once
 #include "coordinate.h"
 #include "info.h"
-
+// https://www.ideone.com/USljB4
 class IFigure
 {
 protected:
     Info m_info;
+    virtual bool CheckMove(Coordinate newCoordinate) {return false;};
 public:
     explicit IFigure(int x, char y, Color color, Type type)
         : m_info{x, y, color, type}
@@ -23,6 +24,7 @@ public:
 
 class Pawn final : public IFigure
 {
+    virtual bool CheckMove(Coordinate newCoordinate) override {return true;};
 public:
     Pawn(int x, char y, Color color) : IFigure(x, y, color, Type::Pawn)
     {}
@@ -34,6 +36,7 @@ public:
 
 class King final : public IFigure
 {
+    virtual bool CheckMove(Coordinate newCoordinate) override {return true;};
 public:
     King(int x, char y, Color color) : IFigure(x, y, color, Type::King)
     {}
@@ -43,6 +46,7 @@ public:
 
 class Queen final : public IFigure
 {
+    virtual bool CheckMove(Coordinate newCoordinate) override {return true;};
 public:
     Queen(int x, char y, Color color) : IFigure(x, y, color, Type::Queen)
     {}
@@ -52,6 +56,7 @@ public:
 
 class Bishop final : public IFigure
 {
+    virtual bool CheckMove(Coordinate newCoordinate) override {return true;};
 public:
     Bishop(int x, char y, Color color) : IFigure(x, y,color, Type::Bishop)
     {}
@@ -61,6 +66,7 @@ public:
 
 class Knight final : public IFigure
 {
+    virtual bool CheckMove(Coordinate newCoordinate) override {return true;};
 public:
     Knight(int x, char y, Color color) : IFigure(x, y, color, Type::Knight)
     {}
@@ -70,6 +76,7 @@ public:
 
 class Rook final : public IFigure
 {
+    virtual bool CheckMove(Coordinate newCoordinate) override {return true;};
 public:
     Rook(int x, char y, Color color) : IFigure(x, y, color, Type::Rook)
     {}
