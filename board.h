@@ -25,6 +25,8 @@ class Board final
         {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
     };
     Board() = default;
+    bool CheckDiagonal(Coordinate From, Coordinate To) const;
+    bool CheckLine(Coordinate From, Coordinate To) const;
 public:
     static Board& instance();
     Board(Board&&) = delete;
@@ -34,4 +36,5 @@ public:
     const Cell &GetCell(Coordinate coordinate) const;
     void UpdateBoard(Coordinate From, Coordinate To);
     void DrawBoard() const noexcept;
+    bool VerificationMove(Coordinate From, Coordinate To) const noexcept;
 };

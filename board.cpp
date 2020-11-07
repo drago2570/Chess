@@ -2,6 +2,16 @@
 #include <algorithm>
 #include <iostream>
 
+bool Board::CheckDiagonal(Coordinate From, Coordinate To) const
+{
+    return false;
+}
+
+bool Board::CheckLine(Coordinate From, Coordinate To) const
+{
+    return false;
+}
+
 Board &Board::instance()
 {
     static Board inst;
@@ -69,4 +79,33 @@ void Board::DrawBoard() const noexcept
         }
         std::cout << std::endl;
     }
+}
+
+bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
+{
+
+    auto cellFrom = GetCell(From);
+
+    {
+        auto cellTo = GetCell(To);
+
+        if(cellFrom.figure->GetInfo().color == cellTo.figure->GetInfo().color)
+        {
+            return false;
+        }
+    }
+
+    switch (cellFrom.figure->GetInfo().type)
+    {
+    case Type::Pawn: {}
+    case Type::Bishop: {}
+    case Type::Knight: {}
+    case Type::King: {}
+    case Type::Queen: {}
+    case Type::Rook: {}
+    case Type::Empty: {}
+    default: {}
+    }
+
+    return false;
 }
