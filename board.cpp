@@ -26,11 +26,11 @@ void Board::UpdateBoard(Coordinate From, Coordinate To)
 
 void Board::DrawBoard() const noexcept
 {
-    for(int i = 0; i < 8; ++i)
+    for(int i = 0; i < ROWS; ++i)
     {
         std::cout << "#########################\n";
         std::cout << "|";
-        for(int j = 0; j < 8; ++j)
+        for(int j = 0; j < COLUMNS; ++j)
         {
             std::string data = "";
             if(m_state[i][j].figure->GetInfo().color == Color::White)

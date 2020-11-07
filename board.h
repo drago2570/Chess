@@ -5,6 +5,9 @@
 
 class Board final
 {
+    constexpr static const int ROWS = 8;
+    constexpr static const int COLUMNS = 8;
+
     Cell m_state[8][8] = {
         {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
         {Cell(new Pawn(1, 'a', Color::Black)),Cell(new Pawn(1, 'b', Color::Black)),Cell(new Pawn(1, 'c', Color::Black)),

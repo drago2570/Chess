@@ -2,15 +2,17 @@
 #include <iostream>
 
 Chess::Chess() : m_board(Board::instance())
-{
-
-}
+{}
 
 void Chess::MakeMove(Coordinate From, Coordinate To)
 {
     auto cell = m_board.GetCell(From);
-    cell.figure->Move(To);
-    m_board.UpdateBoard(From, To);
+    if(cell.figure->CheckMove(To))
+    {
+        cell.figure->UpdateCoordinate(To);
+        m_board.UpdateBoard(From, To);
+    }
+
     m_board.DrawBoard();
 }
 
