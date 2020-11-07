@@ -4,12 +4,59 @@
 
 bool Board::CheckDiagonal(Coordinate From, Coordinate To) const
 {
-    return false;
+    int x1 = Coordinate::GetX(From);
+    int x2 = Coordinate::GetX(To);
+
+//    auto startPoint = From.x < To.x ?
+//                To.y < From.y ? From
+//                                : To
+//              : To.y < From.y ? To
+//                              : From;
+    Coordinate startPoint;
+
+    if(From.x < To.x)
+    {
+        if(To.y < From.y) startPoint = From;
+        else startPoint = To;
+    }
+    else
+    {
+        if(To.y < From.y) startPoint = To;
+        else startPoint = From;
+    }
+
+
+    for(int i = startPoint.x, j = Coordinate::GetY(startPoint), minus = 0; i < abs(x1-x2); ++i, ++j, ++minus)
+        if(GetCell(From).figure->GetInfo().coordinate != GetCell(i-minus, j-minus).figure->GetInfo().coordinate &&
+            GetCell(i-minus, j-minus).figure->GetInfo().type != Type::Empty)
+            return false;
+
+    return true;
 }
 
 bool Board::CheckLine(Coordinate From, Coordinate To) const
 {
-    return false;
+    auto [x1,y1] = Coordinate::GetXY(From);
+    auto [x2,y2] = Coordinate::GetXY(To);
+
+    if(abs(y1-y2) == 0)
+    {
+        auto vertRes = std::min(x1, x2);
+        for(int i = vertRes; i <= vertRes + (abs(x1-x2)); ++i)
+            if(GetCell(From).figure->GetInfo().coordinate != GetCell(i, y1).figure->GetInfo().coordinate &&
+                    GetCell(i, y1).figure->GetInfo().type != Type::Empty)
+                return false;
+    }
+    else if(abs(x1-x2) == 0)
+    {
+        auto horRes = std::min(y1, y2);
+        for(int i = horRes; i <= horRes + (abs(y1-y2)); ++i)
+            if(GetCell(From).figure->GetInfo().coordinate != GetCell(i, y1).figure->GetInfo().coordinate &&
+                    GetCell(x1, i).figure->GetInfo().type != Type::Empty)
+                return false;
+    }
+
+    return true;
 }
 
 Board &Board::instance()
@@ -24,13 +71,15 @@ const Cell& Board::GetCell(Coordinate coordinate) const
     return m_state[x][y];
 }
 
+const Cell &Board::GetCell(int x, int y) const
+{
+    return m_state[x][y];
+}
+
 void Board::UpdateBoard(Coordinate From, Coordinate To)
 {
     auto [x1, y1]= Coordinate::GetXY(From);
     auto [x2, y2] = Coordinate::GetXY(To);
-//    std::cout << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
-//    std::cout << (m_state[x1][y1].figure->GetInfo().type == Type::Pawn) << " " << (m_state[x2][y2].figure->GetInfo().type == Type::Pawn) <<std::endl;
-
     std::swap(m_state[x1][y1].figure, m_state[x2][y2].figure);
 }
 
@@ -83,29 +132,26 @@ void Board::DrawBoard() const noexcept
 
 bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
 {
-
-    auto cellFrom = GetCell(From);
-
+    std::cout << CheckDiagonal(Coordinate(0, 'a'), Coordinate(2, 'c')) << std::endl;
+    std::cout << CheckDiagonal(Coordinate(0, 'e'), Coordinate(2, 'c')) << std::endl;
+    if(GetCell(From).figure->GetInfo().color == GetCell(To).figure->GetInfo().color)
     {
-        auto cellTo = GetCell(To);
-
-        if(cellFrom.figure->GetInfo().color == cellTo.figure->GetInfo().color)
-        {
-            return false;
-        }
+        return false;
     }
 
-    switch (cellFrom.figure->GetInfo().type)
+    switch (GetCell(From).figure->GetInfo().type)
     {
-    case Type::Pawn: {}
-    case Type::Bishop: {}
-    case Type::Knight: {}
+    case Type::Bishop:{}
     case Type::King: {}
     case Type::Queen: {}
     case Type::Rook: {}
-    case Type::Empty: {}
-    default: {}
+
+    case Type::Pawn:
+    case Type::Knight:
+    case Type::Empty: {break;}
+
+    default: {break;}
     }
 
-    return false;
+    return true;
 }
