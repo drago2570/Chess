@@ -24,9 +24,13 @@ public:
 
 class Pawn final : public IFigure
 {
-
+    bool isFirstMove;
+    bool isFirstLongMove;
 public:
-    Pawn(int x, char y, Color color) : IFigure(x, y, color, Type::Pawn)
+    Pawn(int x, char y, Color color)
+        : IFigure(x, y, color, Type::Pawn),
+          isFirstMove{false},
+          isFirstLongMove{false}
     {}
     void UpdateCoordinate(Coordinate To) final override;
     virtual bool CheckMove(Coordinate newCoordinate) override;;
@@ -36,9 +40,11 @@ public:
 
 class King final : public IFigure
 {
-
+    bool isFirstMove;
 public:
-    King(int x, char y, Color color) : IFigure(x, y, color, Type::King)
+    King(int x, char y, Color color)
+        : IFigure(x, y, color, Type::King),
+          isFirstMove{false}
     {}
     void UpdateCoordinate(Coordinate To) final override;
     virtual bool CheckMove(Coordinate newCoordinate) override;;
@@ -77,8 +83,11 @@ public:
 
 class Rook final : public IFigure
 {
+    bool isFirstMove;
 public:
-    Rook(int x, char y, Color color) : IFigure(x, y, color, Type::Rook)
+    Rook(int x, char y, Color color)
+        : IFigure(x, y, color, Type::Rook),
+          isFirstMove{false}
     {}
     void UpdateCoordinate(Coordinate To) final override;
     virtual bool CheckMove(Coordinate newCoordinate) override;;
