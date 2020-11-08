@@ -33,4 +33,10 @@ struct Coordinate final
 
     friend bool operator!=(Coordinate first, Coordinate second)
     { return !(first == second); }
+
+    friend bool operator>(Coordinate first, Coordinate second)
+    { return first.x > second.x;}
+
+    friend bool operator<(Coordinate first, Coordinate second)
+    { return first.x < second.x;}
 };

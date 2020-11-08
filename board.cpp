@@ -7,30 +7,30 @@ bool Board::CheckDiagonal(Coordinate From, Coordinate To) const
     int x1 = Coordinate::GetX(From);
     int x2 = Coordinate::GetX(To);
 
-//    auto startPoint = From.x < To.x ?
-//                To.y < From.y ? From
-//                                : To
-//              : To.y < From.y ? To
-//                              : From;
+    auto [minElement, maxElement] = std::minmax(From, To);
     Coordinate startPoint;
 
-    if(From.x < To.x)
+    if ( (From.x < To.x && From.y > To.y)
+            || (From.x > To.x && From.y < To.y) )
     {
-        if(To.y < From.y) startPoint = From;
-        else startPoint = To;
+        std::cout << "handle\n";
+
+        startPoint.x = maxElement.x;
+        startPoint.y = minElement.y;
     }
     else
     {
-        if(To.y < From.y) startPoint = To;
-        else startPoint = From;
+        startPoint = maxElement;
     }
 
-
-    for(int i = startPoint.x, j = Coordinate::GetY(startPoint), minus = 0; i < abs(x1-x2); ++i, ++j, ++minus)
-        if(GetCell(From).figure->GetInfo().coordinate != GetCell(i-minus, j-minus).figure->GetInfo().coordinate &&
+    std::cout << "startPoint " << startPoint.x << " " << startPoint.y << std::endl;
+    for(int i = startPoint.x, j = Coordinate::GetY(startPoint), minus = 0; minus < abs(x1-x2); ++minus)
+    {
+        std::cout << "index " << i-minus << " " << j-minus << std::endl;
+        if(GetCell(From).figure->getCoordinate() != GetCell(i-minus, j-minus).figure->getCoordinate() &&
             GetCell(i-minus, j-minus).figure->GetInfo().type != Type::Empty)
             return false;
-
+    }
     return true;
 }
 
@@ -43,7 +43,7 @@ bool Board::CheckLine(Coordinate From, Coordinate To) const
     {
         auto vertRes = std::min(x1, x2);
         for(int i = vertRes; i <= vertRes + (abs(x1-x2)); ++i)
-            if(GetCell(From).figure->GetInfo().coordinate != GetCell(i, y1).figure->GetInfo().coordinate &&
+            if(GetCell(From).figure->getCoordinate() != GetCell(i, y1).figure->getCoordinate() &&
                     GetCell(i, y1).figure->GetInfo().type != Type::Empty)
                 return false;
     }
@@ -51,7 +51,7 @@ bool Board::CheckLine(Coordinate From, Coordinate To) const
     {
         auto horRes = std::min(y1, y2);
         for(int i = horRes; i <= horRes + (abs(y1-y2)); ++i)
-            if(GetCell(From).figure->GetInfo().coordinate != GetCell(i, y1).figure->GetInfo().coordinate &&
+            if(GetCell(From).figure->getCoordinate() != GetCell(i, y1).figure->getCoordinate() &&
                     GetCell(x1, i).figure->GetInfo().type != Type::Empty)
                 return false;
     }
@@ -85,10 +85,11 @@ void Board::UpdateBoard(Coordinate From, Coordinate To)
 
 void Board::DrawBoard() const noexcept
 {
+    std::cout << "    a  b  c  d  e  f  g  h\n";
     for(int i = 0; i < ROWS; ++i)
     {
-        std::cout << "#########################\n";
-        std::cout << "|";
+        std::cout << "  #########################\n";
+        std::cout << i << " |";
         for(int j = 0; j < COLUMNS; ++j)
         {
             std::string data = "";
@@ -126,14 +127,19 @@ void Board::DrawBoard() const noexcept
             }
             std::cout << data + "|";
         }
-        std::cout << std::endl;
+        std::cout << i << std::endl;
     }
+    std::cout << "  #########################\n";
+    std::cout << "   a  b  c  d  e  f  g  h\n";
 }
 
 bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
 {
-    std::cout << CheckDiagonal(Coordinate(0, 'a'), Coordinate(2, 'c')) << std::endl;
-    std::cout << CheckDiagonal(Coordinate(0, 'e'), Coordinate(2, 'c')) << std::endl;
+    std::cout << !CheckDiagonal(Coordinate(0, 'a'), Coordinate(2, 'c')) << std::endl;
+    std::cout << !CheckDiagonal(Coordinate(2, 'c'), Coordinate(0, 'e')) << std::endl;
+    std::cout << !CheckDiagonal(Coordinate(0, 'e'), Coordinate(2, 'c')) << std::endl;
+    std::cout << !CheckDiagonal(Coordinate(7, 'a'), Coordinate(5, 'c')) << std::endl;
+    std::cout << !CheckDiagonal(Coordinate(5, 'c'), Coordinate(7, 'a')) << std::endl;
     if(GetCell(From).figure->GetInfo().color == GetCell(To).figure->GetInfo().color)
     {
         return false;
@@ -141,11 +147,11 @@ bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
 
     switch (GetCell(From).figure->GetInfo().type)
     {
-    case Type::Bishop:{}
-    case Type::King: {}
-    case Type::Queen: {}
-    case Type::Rook: {}
+    case Type::Bishop:{return CheckDiagonal(From, To);}
+    case Type::Queen: {return (CheckLine(From, To) || CheckDiagonal(From, To));}
+    case Type::Rook: {return CheckLine(From, To);}
 
+    case Type::King:
     case Type::Pawn:
     case Type::Knight:
     case Type::Empty: {break;}
