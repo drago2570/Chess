@@ -6,48 +6,24 @@ bool Board::CheckDiagonal(Coordinate From, Coordinate To) const
 {
     int x1 = Coordinate::GetX(From);
     int x2 = Coordinate::GetX(To);
-    auto [minElement, maxElement] = std::minmax(From, To);
-    Coordinate startPoint;
+    auto startPoint = std::max(From, To);
 
-    if ( (From.x < To.x && From.y > To.y)
-            || (From.x > To.x && From.y < To.y) )
+    std::cout << "startPoint " << startPoint.x << " " << startPoint.y << std::endl;
+    for(int i = startPoint.x, coef = 1, j = Coordinate::GetY(startPoint), minus = 0; minus <= abs(x1-x2); ++minus)
     {
-        std::cout << "handle\n";
-
-        startPoint = maxElement;
-        std::cout << "startPoint " << startPoint.x << " " << startPoint.y << std::endl;
-        for(int i = startPoint.x, j = Coordinate::GetY(startPoint), minus = 0; minus < abs(x1-x2); ++minus)
+        std::cout << "minus " << minus << " index " << i-minus << " " << j-(minus*coef) << std::endl;
+        if(GetCell(From).figure->getCoordinate() != GetCell(i-minus, j-(minus * coef)).figure->getCoordinate() &&
+            GetCell(i-minus, j-(minus*coef)).figure->GetInfo().type != Type::Empty)
         {
-            if(minus == 0)
-            {
-                if(GetCell(From).figure->getCoordinate() != GetCell(i, j).figure->getCoordinate() &&
-                    GetCell(i, j).figure->GetInfo().type != Type::Empty)
-                        return false;
-
-                startPoint.x = maxElement.x;
-                startPoint.y = minElement.y;
-            }
-            else
-            {
-                if(GetCell(From).figure->getCoordinate() != GetCell(i-minus, j-minus).figure->getCoordinate() &&
-                    GetCell(i-minus, j-minus).figure->GetInfo().type != Type::Empty)
-                        return false;
-            }
+            std::cout << "find figure\n";
+            return false;
         }
-    }
-    else
-    {
-        startPoint = maxElement;
-        std::cout << "startPoint " << startPoint.x << " " << startPoint.y << std::endl;
-        for(int i = startPoint.x, j = Coordinate::GetY(startPoint), minus = 0; minus < abs(x1-x2); ++minus)
+
+        if( minus == 0 && ( (From.x < To.x && From.y > To.y)
+                || (From.x > To.x && From.y < To.y) ) )
         {
-            std::cout << "index " << i-minus << " " << j-minus << std::endl;
-            if(GetCell(From).figure->getCoordinate() != GetCell(i-minus, j-minus).figure->getCoordinate() &&
-                GetCell(i-minus, j-minus).figure->GetInfo().type != Type::Empty)
-            {
-                std::cout << "find figure\n";
-                return false;
-            }
+            coef = -1;
+            std::cout << "handle diagonal\n";
         }
     }
 
@@ -76,7 +52,7 @@ bool Board::CheckLine(Coordinate From, Coordinate To) const
                     GetCell(x1, i).figure->GetInfo().type != Type::Empty)
                 return false;
     }
-
+    else {return false;}
     return true;
 }
 
@@ -156,11 +132,6 @@ void Board::DrawBoard() const noexcept
 
 bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
 {
-    std::cout << CheckDiagonal(Coordinate(0, 'a'), Coordinate(2, 'c')) << std::endl;
-//    std::cout << !CheckDiagonal(Coordinate(2, 'c'), Coordinate(0, 'e')) << std::endl;
-//    std::cout << !CheckDiagonal(Coordinate(0, 'e'), Coordinate(2, 'c')) << std::endl;
-//    std::cout << !CheckDiagonal(Coordinate(7, 'a'), Coordinate(5, 'c')) << std::endl;
-//    std::cout << !CheckDiagonal(Coordinate(5, 'c'), Coordinate(7, 'a')) << std::endl;
     if(GetCell(From).figure->GetInfo().color == GetCell(To).figure->GetInfo().color)
     {
         return false;
