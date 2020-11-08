@@ -5,6 +5,9 @@
 
 class Board final
 {
+    constexpr static const int ROWS = 8;
+    constexpr static const int COLUMNS = 8;
+
     Cell m_state[8][8] = {
         {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
         {Cell(new Pawn(1, 'a', Color::Black)),Cell(new Pawn(1, 'b', Color::Black)),Cell(new Pawn(1, 'c', Color::Black)),
@@ -22,6 +25,8 @@ class Board final
         {Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell(),Cell()},
     };
     Board() = default;
+    bool CheckDiagonal(Coordinate From, Coordinate To) const;
+    bool CheckLine(Coordinate From, Coordinate To) const;
 public:
     static Board& instance();
     Board(Board&&) = delete;
@@ -29,6 +34,8 @@ public:
     Board(const Board&) = delete;
     Board operator =(const Board&) = delete;
     const Cell &GetCell(Coordinate coordinate) const;
+    const Cell &GetCell(int x, int y) const;
     void UpdateBoard(Coordinate From, Coordinate To);
     void DrawBoard() const noexcept;
+    bool VerificationMove(Coordinate From, Coordinate To) const noexcept;
 };
