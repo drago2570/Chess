@@ -22,22 +22,34 @@ bool Pawn::CheckMove(Coordinate newCoordinate)
 {
     if(m_info.coordinate == newCoordinate) return false;
 
-    if(!isFirstMove && ( abs(m_info.coordinate.x - newCoordinate.x) == 2 && m_info.coordinate.y == newCoordinate.y))
+    constexpr const int BOARD_SIZE = 8;
+    int x1 = m_info.coordinate.x;
+    int x2 = newCoordinate.x;
+
+    if(m_info.color == Color::White)
     {
-        isFirstMove = true;
-        isFirstLongMove = true;
-        return true;
+        x1 = BOARD_SIZE - m_info.coordinate.x;
+        x2 = BOARD_SIZE - newCoordinate.x;
     }
 
-    if( ( abs(m_info.coordinate.x - newCoordinate.x) == 1 && m_info.coordinate.y == newCoordinate.y)
-            || ( abs(m_info.coordinate.y - newCoordinate.y) == 1 && abs(m_info.coordinate.x - newCoordinate.x) == 1 ) )
+    if(x2 > x1)
     {
-        isFirstMove = true;
-        return true;
-    }
 
-    newCoordinate.x = newCoordinate.x;
-    return true;
+        if(!isFirstMove && ( abs(m_info.coordinate.x - newCoordinate.x) == 2 && m_info.coordinate.y == newCoordinate.y))
+        {
+            isFirstMove = true;
+            isFirstLongMove = true;
+            return true;
+        }
+
+        if( ( abs(m_info.coordinate.x - newCoordinate.x) == 1 && m_info.coordinate.y == newCoordinate.y)
+                || ( abs(m_info.coordinate.y - newCoordinate.y) == 1 && abs(m_info.coordinate.x - newCoordinate.x) == 1 ) )
+        {
+            isFirstMove = true;
+            return true;
+        }
+    }
+    return false;
 }
 
 void King::UpdateCoordinate(Coordinate To)

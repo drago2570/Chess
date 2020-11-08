@@ -1,7 +1,9 @@
 #include "chess.h"
 #include <iostream>
 
-Chess::Chess() : m_board(Board::instance())
+Chess::Chess()
+    : m_board(Board::instance()),
+      m_players{Player{Color::White}, Player{Color::Black}}
 {}
 
 void Chess::MakeMove(Coordinate From, Coordinate To)
@@ -19,4 +21,5 @@ void Chess::MakeMove(Coordinate From, Coordinate To)
 void Chess::run()
 {
     MakeMove(Coordinate(1, 'a'), Coordinate(2, 'a'));
+    MakeMove(Coordinate(2, 'a'), Coordinate(1, 'a'));
 }

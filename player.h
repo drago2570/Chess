@@ -7,10 +7,16 @@ class Player final
 {
     std::vector<Coordinate> m_avaliableFigureToReturn;
     std::vector<Cell> m_allAvaliableFigures;
-    const char* m_color;
+    Color m_color;
+    Coordinate m_kingCoordinate;
 public:
-    Player();
-    Player(const char* color)
+    Player(): m_color{Color::None}
+    {
+        m_allAvaliableFigures.reserve(16);
+    }
+    Player(Color color)
         : m_color{color}
-    {}
+    {
+        m_allAvaliableFigures.reserve(16);
+    }
 };
