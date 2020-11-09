@@ -7,9 +7,14 @@ Coordinate IFigure::getCoordinate() const
     return m_info.coordinate;
 }
 
-Info IFigure::GetInfo() const
+const Info& IFigure::GetInfo() const
 {
     return m_info;
+}
+
+void IFigure::SetInfo(Info& info)
+{
+    m_info = info;
 }
 
 void Pawn::UpdateCoordinate(Coordinate To)
@@ -64,6 +69,7 @@ bool King::CheckMove(Coordinate newCoordinate)
         || ( (abs(m_info.coordinate.x - newCoordinate.x) == 1) && (m_info.coordinate.y - newCoordinate.y) == 0) // ahead down
         || ( (abs(m_info.coordinate.y - newCoordinate.y) == 1) && abs(m_info.coordinate.x - newCoordinate.x) == 1) ) ) // diagonal
     {
+        isFirstMove = true;
         return true;
     }
     return false;
@@ -126,6 +132,7 @@ bool Rook::CheckMove(Coordinate newCoordinate)
     if( m_info.coordinate != newCoordinate &&
             ( m_info.coordinate.y == newCoordinate.y || m_info.coordinate.x == newCoordinate.x) )
     {
+        isFirstMove = true;
         return true;
     }
 

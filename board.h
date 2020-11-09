@@ -33,6 +33,7 @@ public:
     Board operator =(Board&&) = delete;
     Board(const Board&) = delete;
     Board operator =(const Board&) = delete;
+
     const Cell &GetCell(Coordinate coordinate) const;
     const Cell &GetCell(int x, int y) const;
     void UpdateBoard(Coordinate From, Coordinate To);

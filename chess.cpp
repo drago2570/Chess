@@ -8,12 +8,27 @@ Chess::Chess()
 
 void Chess::MakeMove(Coordinate From, Coordinate To)
 {
-    const Cell& cell = m_board.GetCell(From);
-    if(cell.figure->CheckMove(To) && m_board.VerificationMove(From, To))
+    const Cell& cellFrom = m_board.GetCell(From);
+    const Cell& cellTo = m_board.GetCell(To);
+//    auto infoFrom = cellFrom.figure->GetInfo();
+//    auto infoTo = cellTo.figure->GetInfo();
+
+    if(cellFrom.figure->CheckMove(To)
+            && m_board.VerificationMove(From, To)
+            && cellTo.figure->GetInfo().type == Type::Empty)
     {
-        cell.figure->UpdateCoordinate(To);
+        cellFrom.figure->UpdateCoordinate(To);
         m_board.UpdateBoard(From, To);
     }
+    else
+    {
+
+    }
+
+//    if(IsCheck(Coordinate(1, 'a')))
+//    {
+//        m_board.Revert(From, To, infoFrom, infoTo);
+//    }
 
     m_board.DrawBoard();
 }
