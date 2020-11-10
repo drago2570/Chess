@@ -12,11 +12,6 @@ const Info& IFigure::GetInfo() const
     return m_info;
 }
 
-void IFigure::SetInfo(Info& info)
-{
-    m_info = info;
-}
-
 void Pawn::UpdateCoordinate(Coordinate To)
 {
     std::cout << "Pawn Move from (" << m_info.coordinate.x << "; " << m_info.coordinate.y << ") to (" << To.x << "; " << To.y << ")\n";

@@ -20,7 +20,6 @@ public:
     virtual bool CheckMove(Coordinate) {return false;};
     Coordinate getCoordinate() const;
     const Info& GetInfo() const;
-    void SetInfo(Info&);
 
     virtual ~IFigure() {}
 };

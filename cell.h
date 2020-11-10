@@ -15,8 +15,14 @@ struct Cell final
           previewInfo{&figure->GetInfo()}
     {}
 
+    void SetPreviewInfoByFigure()
+    {
+        previewInfo = &figure->GetInfo();
+    }
+
     ~Cell()
     {
+        previewInfo = nullptr;
         delete figure;
     }
 };

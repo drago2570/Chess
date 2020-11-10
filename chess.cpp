@@ -22,19 +22,15 @@ void Chess::MakeMove(Coordinate From, Coordinate To)
     }
     else
     {
-
+        std::cout << "invalid move\n";
     }
-
-//    if(IsCheck(Coordinate(1, 'a')))
-//    {
-//        m_board.Revert(From, To, infoFrom, infoTo);
-//    }
 
     m_board.DrawBoard();
 }
 
 void Chess::run()
 {
+    m_board.DrawBoard();
     MakeMove(Coordinate(1, 'a'), Coordinate(2, 'a'));
-    MakeMove(Coordinate(2, 'a'), Coordinate(1, 'a'));
+//    MakeMove(Coordinate(2, 'a'), Coordinate(1, 'a'));
 }
