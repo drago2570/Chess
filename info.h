@@ -1,6 +1,6 @@
 #pragma once
 #include "coordinate.h"
-
+#include <iostream>
 enum class Type
 {
     Pawn=0,
@@ -21,17 +21,22 @@ enum class Color
 
 struct Info final
 {
+    Coordinate coordinate;
     Color color;
     Type type;
-    Coordinate coordinate;
 
     Info()
         : color{Color::None},
           type{Type::Empty}
-       {}
+    {
+//        std::cout << "Info() " << (int)color << " " << (int)type << std::endl;
+    }
     Info(int x, char y, Color color, Type type)
-        : color{color},
-          type{type},
-          coordinate{Coordinate(x,y)}
-    {}
+        : coordinate{Coordinate(x,y)},
+          color{color},
+          type{type}
+
+    {
+//        std::cout << "Info(params) " << (int)color << " " << (int)type << std::endl;
+    }
 };

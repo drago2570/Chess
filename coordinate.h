@@ -6,7 +6,7 @@ struct Coordinate final
     int x;
     char y;
 
-    Coordinate(short int x, char y)
+    Coordinate(int x, char y)
         :x{x}, y{y}
        {}
 

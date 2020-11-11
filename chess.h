@@ -16,4 +16,5 @@ class Chess final
 public:
     Chess();
     void run();
+    ~Chess(){std::cout << "~Chess()\n";}
 };

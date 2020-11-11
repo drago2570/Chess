@@ -4,34 +4,30 @@
 
 Board::Board()
 {
-//    for(int i = 0; i < 8; ++i) m_state[0][i] = Cell();
-//    m_state[1][0] = Cell(new Pawn(1, 'a', Color::Black));
-//    m_state[1][1] = Cell(new Pawn(1, 'b', Color::Black));
-//    m_state[1][2] = Cell(new Pawn(1, 'c', Color::Black));
-//    m_state[1][3] = Cell(new Pawn(1, 'd', Color::Black));
-//    m_state[1][4] = Cell(new Pawn(1, 'e', Color::Black));
-//    m_state[1][5] = Cell(new Pawn(1, 'f', Color::Black)),
-//    m_state[1][6] = Cell(new Pawn(1, 'g', Color::Black));
-//    m_state[1][7] = Cell(new Pawn(1, 'h', Color::Black));
+    m_state[0][0] = Cell(std::unique_ptr<IFigure>(new Rook(0, 'a', Color::Black)));
+    m_state[0][1] = Cell(std::unique_ptr<IFigure>(new Knight(0, 'b', Color::Black)));
+    m_state[0][2] = Cell(std::unique_ptr<IFigure>(new Bishop(0, 'c', Color::Black)));
+    m_state[0][3] = Cell(std::unique_ptr<IFigure>(new Queen(0, 'd', Color::Black)));
+    m_state[0][4] = Cell(std::unique_ptr<IFigure>(new King(0, 'e', Color::Black)));
+    m_state[0][5] = Cell(std::unique_ptr<IFigure>(new Bishop(0, 'f', Color::Black)));
+    m_state[0][6] = Cell(std::unique_ptr<IFigure>(new Knight(0, 'g', Color::Black)));
+    m_state[0][7] = Cell(std::unique_ptr<IFigure>(new Rook(0, 'h', Color::Black)));
 
-//    for(int i = 2; i < 7; ++i)
-//        for(int j = 0; j < 8; ++j)
-//            m_state[i][j] = Cell();
+    char c = 'a';
+    for(int i = 0; i < 8; ++i, ++c)
+    {
+        m_state[1][i] = Cell(std::unique_ptr<IFigure>(new Pawn(1, c, Color::Black)));
+        m_state[6][i] = Cell(std::unique_ptr<IFigure>(new Pawn(7, c, Color::White)));
+    }
 
-//    m_state[7][0] = Cell(new Pawn(7, 'a', Color::White));
-//    m_state[7][1] = Cell(new Pawn(7, 'b', Color::White));
-//    m_state[7][2] = Cell(new Pawn(7, 'c', Color::White));
-//    m_state[7][3] = Cell(new Pawn(7, 'd', Color::White));
-//    m_state[7][4] = Cell(new Pawn(7, 'e', Color::White));
-//    m_state[7][5] = Cell(new Pawn(7, 'f', Color::White)),
-//    m_state[7][6] = Cell(new Pawn(7, 'g', Color::White));
-//    m_state[7][7] = Cell(new Pawn(7, 'h', Color::White));
-
-//    for(int i = 0; i < 8; ++i)
-//        for(int j = 0; j < 8; ++j)
-//            std::cout << (int)m_state[i][j].figure->GetInfo().type << " " << (int)m_state[i][j].figure->GetInfo().color << " ("
-//                      << m_state[i][j].figure->GetInfo().coordinate.x << "; " << m_state[i][j].figure->GetInfo().coordinate.y << ")\n";
-
+    m_state[7][0] = Cell(std::unique_ptr<IFigure>(new Rook(7, 'a', Color::Black)));
+    m_state[7][1] = Cell(std::unique_ptr<IFigure>(new Knight(7, 'b', Color::Black)));
+    m_state[7][2] = Cell(std::unique_ptr<IFigure>(new Bishop(7, 'c', Color::Black)));
+    m_state[7][3] = Cell(std::unique_ptr<IFigure>(new Queen(7, 'd', Color::Black)));
+    m_state[7][4] = Cell(std::unique_ptr<IFigure>(new King(7, 'e', Color::Black)));
+    m_state[7][5] = Cell(std::unique_ptr<IFigure>(new Bishop(7, 'f', Color::Black)));
+    m_state[7][6] = Cell(std::unique_ptr<IFigure>(new Knight(7, 'g', Color::Black)));
+    m_state[7][7] = Cell(std::unique_ptr<IFigure>(new Rook(7, 'h', Color::Black)));
 }
 
 bool Board::CheckDiagonal(Coordinate From, Coordinate To) const
@@ -115,7 +111,7 @@ void Board::UpdateBoard(Coordinate From, Coordinate To)
     m_state[x2][y2].SetPreviewInfoByFigure();
 }
 
-void Board::DrawBoard() const noexcept
+void Board::DrawBoard() const
 {
     std::cout << "    a  b  c  d  e  f  g  h\n";
     for(int i = 0; i < ROWS; ++i)
@@ -191,3 +187,12 @@ bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
 
     return true;
 }
+
+void Board::Revert(Coordinate From)
+{
+    auto [x1, y1]= Coordinate::GetXY(From);
+    m_state[x1][y1].SetPreviewInfoByFigure();
+}
+
+Board::~Board()
+{}

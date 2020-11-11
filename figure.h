@@ -1,6 +1,8 @@
 #pragma once
 #include "coordinate.h"
 #include "info.h"
+#include <iostream>
+
 // https://www.ideone.com/USljB4
 class IFigure
 {
@@ -9,7 +11,11 @@ protected:
 public:
     explicit IFigure(int x, char y, Color color, Type type)
         : m_info{x, y, color, type}
-    {}
+    {
+        std::cout << "IFigure type " << (int)m_info.type << " color " << (int)m_info.color
+                  << " coordinate (" << m_info.coordinate.x << "; " << m_info.coordinate.y << ")\n";
+
+    }
     explicit IFigure()
         : m_info{}
     {}
@@ -21,7 +27,7 @@ public:
     Coordinate getCoordinate() const;
     const Info& GetInfo() const;
 
-    virtual ~IFigure() {}
+    virtual ~IFigure() {std::cout << "~IFigure()\n";}
 };
 
 class Pawn final : public IFigure
@@ -33,13 +39,17 @@ public:
         : IFigure(x, y, color, Type::Pawn),
           isFirstMove{false},
           isFirstLongMove{false}
-    {}
+    {
+        std::cout << "Pawn type " << (int)m_info.type << " color " << (int)m_info.color
+                  << " coordinate (" << m_info.coordinate.x << "; " << m_info.coordinate.y << ")\n";
+
+    }
     Pawn(Info&& info)
         : IFigure{std::move(info)}
     {}
     void UpdateCoordinate(Coordinate To) override;
     bool CheckMove(Coordinate newCoordinate) override;;
-    ~Pawn(){}
+    ~Pawn() {std::cout << "~Pawn()\n";}
 };
 
 
@@ -129,5 +139,5 @@ public:
     {}
     void UpdateCoordinate(Coordinate To) override;
 
-    ~Empty() {}
+    ~Empty() {std::cout << "~Empty()\n";}
 };

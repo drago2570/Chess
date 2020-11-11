@@ -22,6 +22,7 @@ void Chess::MakeMove(Coordinate From, Coordinate To)
     }
     else
     {
+        m_board.Revert(From);
         std::cout << "invalid move\n";
     }
 
@@ -30,7 +31,12 @@ void Chess::MakeMove(Coordinate From, Coordinate To)
 
 void Chess::run()
 {
-    m_board.DrawBoard();
+    try {
+        m_board.DrawBoard();
+    } catch (...) {
+        std::cout << "Error\n";
+    }
+
     MakeMove(Coordinate(1, 'a'), Coordinate(2, 'a'));
-//    MakeMove(Coordinate(2, 'a'), Coordinate(1, 'a'));
+    MakeMove(Coordinate(2, 'a'), Coordinate(1, 'a'));
 }
