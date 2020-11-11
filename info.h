@@ -37,4 +37,10 @@ struct Info final
           type{type}
 
     {}
+
+    Info(Coordinate coordinate, Color color, Type type)
+        : coordinate{coordinate},
+          color{color},
+          type{type}
+    {}
 };

@@ -1,5 +1,6 @@
 #include "player.h"
 #include <iostream>
+#include <algorithm>
 
 const std::vector<Coordinate>& Player::allAvaliableFigures() const
 {
@@ -8,13 +9,24 @@ const std::vector<Coordinate>& Player::allAvaliableFigures() const
 
 void Player::DeleteFigure(Type type, Coordinate coordinate)
 {
+    auto res = std::find(begin(m_allAvaliableFigures), end(m_allAvaliableFigures), coordinate);
+
+    if(res == end(m_allAvaliableFigures)) return;
+
     AddFigureForReturn(type);
 }
 
-void Player::ReturnFigureToBoard(Type type)
+Info Player::ReturnFigureToBoard(Type type)
 {
     // Enter coordinate
-    AddFigure(Coordinate());
+    Coordinate coordinate;
+
+    std::cout << "Enter coordinate: ";
+    std::cin >> coordinate;
+
+    AddFigure(coordinate);
+
+    return Info{coordinate, m_color, type};
 }
 
 const Coordinate Player::kingCoordinate() const
@@ -24,12 +36,12 @@ const Coordinate Player::kingCoordinate() const
 
 void Player::AddFigureForReturn(Type type)
 {
-
+    m_avaliableFigureToReturn.push_back(type);
 }
 
 void Player::AddFigure(Coordinate coordinate)
 {
-
+    m_allAvaliableFigures.push_back(coordinate);
 }
 
 Player::Player()
