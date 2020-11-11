@@ -17,6 +17,11 @@ void Player::ReturnFigureToBoard(Type type)
     AddFigure(Coordinate());
 }
 
+const Coordinate Player::kingCoordinate() const
+{
+    return m_kingCoordinate;
+}
+
 void Player::AddFigureForReturn(Type type)
 {
 
@@ -45,4 +50,6 @@ Player::Player(Color color)
         }
         m_allAvaliableFigures.push_back(Coordinate( m_color == Color::Black ? (i/8) : (7 - (i/8)), c));
     }
+
+    m_kingCoordinate = m_color == Color::Black ? Coordinate(0, 'e') : Coordinate(7, 'e');
 }

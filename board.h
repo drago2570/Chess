@@ -26,7 +26,8 @@ public:
     void UpdateBoard(Coordinate From, Coordinate To);
     void DrawBoard() const;
     bool VerificationMove(Coordinate From, Coordinate To) const noexcept;
-    void Revert(Coordinate From;
+    void Revert(Coordinate From);
+    void SetCoordinateForPreview(Coordinate newCoordinate);
 
     ~Board();
 };

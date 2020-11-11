@@ -19,4 +19,5 @@ public:
     const std::vector<Coordinate>& allAvaliableFigures() const;
     void DeleteFigure(Type type, Coordinate coordinate);
     void ReturnFigureToBoard(Type type);
+    const Coordinate kingCoordinate() const;
 };

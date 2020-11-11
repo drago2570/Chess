@@ -17,6 +17,7 @@ enum class Color
     White=0,
     Black=1,
     None=2
+
 };
 
 struct Info final
@@ -28,15 +29,12 @@ struct Info final
     Info()
         : color{Color::None},
           type{Type::Empty}
-    {
-//        std::cout << "Info() " << (int)color << " " << (int)type << std::endl;
-    }
+    {}
+
     Info(int x, char y, Color color, Type type)
         : coordinate{Coordinate(x,y)},
           color{color},
           type{type}
 
-    {
-//        std::cout << "Info(params) " << (int)color << " " << (int)type << std::endl;
-    }
+    {}
 };

@@ -55,11 +55,11 @@ public:
 
 class King final : public IFigure
 {
-    bool isFirstMove;
+    bool m_isFirstMove;
 public:
     King(int x, char y, Color color)
         : IFigure(x, y, color, Type::King),
-          isFirstMove{false}
+          m_isFirstMove{false}
     {}
     King(Info&& info)
         : IFigure{std::move(info)}
@@ -67,6 +67,7 @@ public:
     void UpdateCoordinate(Coordinate To) override;
     bool CheckMove(Coordinate newCoordinate) override;;
     ~King() {}
+    bool isFirstMove() const;
 };
 
 class Queen final : public IFigure
@@ -113,11 +114,11 @@ public:
 
 class Rook final : public IFigure
 {
-    bool isFirstMove;
+    bool m_isFirstMove;
 public:
     Rook(int x, char y, Color color)
         : IFigure(x, y, color, Type::Rook),
-          isFirstMove{false}
+          m_isFirstMove{false}
     {}
     Rook(Info&& info)
         : IFigure{std::move(info)}
@@ -125,6 +126,7 @@ public:
     void UpdateCoordinate(Coordinate To) override;
     bool CheckMove(Coordinate newCoordinate) override;;
     ~Rook() {}
+    bool isFirstMove() const;
 };
 
 class Empty final : public IFigure

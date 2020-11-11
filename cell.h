@@ -7,12 +7,11 @@ struct Cell final
     std::unique_ptr<IFigure> figure;
     Info previewInfo = figure->GetInfo();
     // Take previewInfo to investigate move is really possible, after update figure->info
-    // after init previewInfo(figure->GetInfo() or nullptr)
+    // after init previewInfo(figure->GetInfo())
     Cell()
         :figure{new Empty()}
-    {
-        std::cout << "Cell()\n";
-    }
+    {}
+
     Cell(std::unique_ptr<IFigure> figure)
         :figure{std::move(figure)}
     {}
@@ -22,10 +21,8 @@ struct Cell final
     Cell(Cell&&) = delete;
     Cell& operator=(Cell&& other)
     {
-        std::cout << "Cell& operator=(Cell&& other)\n";
         figure = std::move(other.figure);
         previewInfo = figure->GetInfo();
-        std::cout << "Cell& operator=(Cell&& other) type " << (int)figure->GetInfo().type << std::endl;
         return *this;
     }
 
@@ -35,7 +32,5 @@ struct Cell final
     }
 
     ~Cell()
-    {
-        std::cout << "~Cell() color ";
-    }
+    {}
 };

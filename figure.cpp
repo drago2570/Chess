@@ -52,6 +52,11 @@ bool Pawn::CheckMove(Coordinate newCoordinate)
     return false;
 }
 
+bool King::isFirstMove() const
+{
+    return m_isFirstMove;
+}
+
 void King::UpdateCoordinate(Coordinate To)
 {
     m_info.coordinate = To;
@@ -64,7 +69,7 @@ bool King::CheckMove(Coordinate newCoordinate)
         || ( (abs(m_info.coordinate.x - newCoordinate.x) == 1) && (m_info.coordinate.y - newCoordinate.y) == 0) // ahead down
         || ( (abs(m_info.coordinate.y - newCoordinate.y) == 1) && abs(m_info.coordinate.x - newCoordinate.x) == 1) ) ) // diagonal
     {
-        isFirstMove = true;
+        m_isFirstMove = true;
         return true;
     }
     return false;
@@ -117,6 +122,11 @@ bool Knight::CheckMove(Coordinate newCoordinate)
     return false;
 }
 
+bool Rook::isFirstMove() const
+{
+    return m_isFirstMove;
+}
+
 void Rook::UpdateCoordinate(Coordinate To)
 {
     m_info.coordinate = To;
@@ -127,7 +137,7 @@ bool Rook::CheckMove(Coordinate newCoordinate)
     if( m_info.coordinate != newCoordinate &&
             ( m_info.coordinate.y == newCoordinate.y || m_info.coordinate.x == newCoordinate.x) )
     {
-        isFirstMove = true;
+        m_isFirstMove = true;
         return true;
     }
 

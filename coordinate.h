@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <istream>
 
 struct Coordinate final
 {
@@ -28,6 +29,12 @@ struct Coordinate final
     {
         return coordinate.y - 'a';
     }
+
+    static bool ValidateCoordinate(Coordinate coordinate)
+    {
+        return (coordinate.x >= 0 && coordinate.x <= 7) && ((coordinate.y >= 'a' && coordinate.y <= 'h'));
+    }
+
     friend bool operator==(Coordinate first, Coordinate second)
     { return first.x == second.x && first.y == second.y; }
 
@@ -39,4 +46,11 @@ struct Coordinate final
 
     friend bool operator<(Coordinate first, Coordinate second)
     { return first.x < second.x;}
+
+    friend std::istream& operator >> (std::istream &is, Coordinate &coordinate)
+    {
+        is >> coordinate.x >> coordinate.y;
+        coordinate.y = std::tolower(coordinate.y);
+        return is;
+    }
 };

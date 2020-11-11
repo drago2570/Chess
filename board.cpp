@@ -81,6 +81,7 @@ bool Board::CheckLine(Coordinate From, Coordinate To) const
                 return false;
     }
     else {return false;}
+
     return true;
 }
 
@@ -170,7 +171,7 @@ bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
     {
         return false;
     }
-
+    // TODO: Check trying to take a figure;
     switch (GetCell(From).figure->GetInfo().type)
     {
     case Type::Bishop:{return CheckDiagonal(From, To);}
@@ -186,6 +187,12 @@ bool Board::VerificationMove(Coordinate From, Coordinate To) const noexcept
     }
 
     return true;
+}
+
+void Board::SetCoordinateForPreview(Coordinate newCoordinate)
+{
+    auto [x,y] = Coordinate::GetXY(newCoordinate);
+    m_state[x][y].previewInfo.coordinate = newCoordinate;
 }
 
 void Board::Revert(Coordinate From)
