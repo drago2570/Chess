@@ -12,8 +12,8 @@ public:
     explicit IFigure(int x, char y, Color color, Type type)
         : m_info{x, y, color, type}
     {
-        std::cout << "IFigure type " << (int)m_info.type << " color " << (int)m_info.color
-                  << " coordinate (" << m_info.coordinate.x << "; " << m_info.coordinate.y << ")\n";
+//        std::cout << "IFigure type " << (int)m_info.type << " color " << (int)m_info.color
+//                  << " coordinate (" << m_info.coordinate.x << "; " << m_info.coordinate.y << ")\n";
 
     }
     explicit IFigure()
@@ -27,7 +27,7 @@ public:
     Coordinate getCoordinate() const;
     const Info& GetInfo() const;
 
-    virtual ~IFigure() {std::cout << "~IFigure()\n";}
+    virtual ~IFigure() {} //{std::cout << "~IFigure()\n";}
 };
 
 class Pawn final : public IFigure
@@ -40,8 +40,8 @@ public:
           isFirstMove{false},
           isFirstLongMove{false}
     {
-        std::cout << "Pawn type " << (int)m_info.type << " color " << (int)m_info.color
-                  << " coordinate (" << m_info.coordinate.x << "; " << m_info.coordinate.y << ")\n";
+//        std::cout << "Pawn type " << (int)m_info.type << " color " << (int)m_info.color
+//                  << " coordinate (" << m_info.coordinate.x << "; " << m_info.coordinate.y << ")\n";
 
     }
     Pawn(Info&& info)
@@ -49,7 +49,7 @@ public:
     {}
     void UpdateCoordinate(Coordinate To) override;
     bool CheckMove(Coordinate newCoordinate) override;;
-    ~Pawn() {std::cout << "~Pawn()\n";}
+    ~Pawn(){} // {std::cout << "~Pawn()\n";}
 };
 
 
@@ -139,7 +139,11 @@ public:
     Empty(Info&& info)
         : IFigure{std::move(info)}
     {}
+
+    Empty(Coordinate coordinate)
+        : IFigure(coordinate.x, coordinate.y, Color::None, Type::Empty)
+    {}
     void UpdateCoordinate(Coordinate To) override;
 
-    ~Empty() {std::cout << "~Empty()\n";}
+    ~Empty(){} // {std::cout << "~Empty()\n";}
 };

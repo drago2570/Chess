@@ -28,6 +28,7 @@ public:
     bool VerificationMove(Coordinate From, Coordinate To) const noexcept;
     void Revert(Coordinate From);
     void SetCoordinateForPreview(Coordinate newCoordinate);
+    void MakeCellEmpty(Coordinate coordinate);
 
     ~Board();
 };

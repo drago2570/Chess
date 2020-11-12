@@ -16,11 +16,13 @@ void Player::DeleteFigure(Type type, Coordinate coordinate)
     AddFigureForReturn(type);
 }
 
-Info Player::ReturnFigureToBoard(Type type)
+Info Player::ReturnFigureToBoard()
 {
     // Enter coordinate
     Coordinate coordinate;
-
+    // print m_avaliableFigureToReturn
+    // read type
+    Type type = Type::Empty;
     std::cout << "Enter coordinate: ";
     std::cin >> coordinate;
 

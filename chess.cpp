@@ -26,6 +26,12 @@ void Chess::MakeMove(Coordinate From, Coordinate To)
 
         if(IsMoveSafe())
         {
+            if (cellFrom.figure->GetInfo().color != cellTo.figure->GetInfo().color
+                    && cellTo.figure->GetInfo().type != Type::Empty)
+            {
+                m_board.MakeCellEmpty(To);
+            }
+
             m_board.UpdateBoard(From, To);
         }
         else
@@ -94,8 +100,8 @@ bool Chess::IsCastlingPosible(Coordinate From, Coordinate To)
     decltype(auto) cellFrom = m_board.GetCell(From);
     decltype(auto) cellTo = m_board.GetCell(To);
 
-    if( (cellFrom.figure->GetInfo().type == Type::King && dynamic_cast<King*>(cellFrom.figure.get())->isFirstMove())
-            && (cellTo.figure->GetInfo().type == Type::Rook && dynamic_cast<Rook*>(cellTo.figure.get())->isFirstMove()) )
+    if( (cellFrom.figure->GetInfo().type == Type::King && !dynamic_cast<King*>(cellFrom.figure.get())->isFirstMove())
+            && (cellTo.figure->GetInfo().type == Type::Rook && !dynamic_cast<Rook*>(cellTo.figure.get())->isFirstMove()) )
     {
         return true;
     }

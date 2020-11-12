@@ -44,6 +44,13 @@ bool Board::CheckDiagonal(Coordinate From, Coordinate To) const
             GetCell(i-minus, j-(minus*coef)).figure->GetInfo().type != Type::Empty)
         {
             std::cout << "find figure\n";
+
+            if(GetCell(To).figure->getCoordinate() == GetCell(i-minus, j-(minus*coef)).figure->getCoordinate()
+                    && GetCell(From).figure->GetInfo().color != GetCell(To).figure->GetInfo().color)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -68,21 +75,40 @@ bool Board::CheckLine(Coordinate From, Coordinate To) const
     {
         auto vertRes = std::min(x1, x2);
         for(int i = vertRes; i <= vertRes + (abs(x1-x2)); ++i)
+        {
             if(GetCell(From).figure->getCoordinate() != GetCell(i, y1).figure->getCoordinate() &&
                     GetCell(i, y1).figure->GetInfo().type != Type::Empty)
+            {
+                if(GetCell(To).figure->getCoordinate() == GetCell(i, y1).figure->getCoordinate()
+                        && GetCell(From).figure->GetInfo().color != GetCell(To).figure->GetInfo().color)
+                    return true;
+
                 return false;
+            }
+        }
+
+        return true;
     }
     else if(abs(x1-x2) == 0)
     {
         auto horRes = std::min(y1, y2);
         for(int i = horRes; i <= horRes + (abs(y1-y2)); ++i)
-            if(GetCell(From).figure->getCoordinate() != GetCell(i, y1).figure->getCoordinate() &&
+        {
+            if(GetCell(From).figure->getCoordinate() != GetCell(x1, i).figure->getCoordinate() &&
                     GetCell(x1, i).figure->GetInfo().type != Type::Empty)
-                return false;
-    }
-    else {return false;}
+            {
+                if(GetCell(To).figure->getCoordinate() == GetCell(x1, i).figure->getCoordinate()
+                        && GetCell(From).figure->GetInfo().color != GetCell(To).figure->GetInfo().color)
+                    return true;
 
-    return true;
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 Board &Board::instance()
@@ -193,6 +219,12 @@ void Board::SetCoordinateForPreview(Coordinate newCoordinate)
 {
     auto [x,y] = Coordinate::GetXY(newCoordinate);
     m_state[x][y].previewInfo.coordinate = newCoordinate;
+}
+
+void Board::MakeCellEmpty(Coordinate coordinate)
+{
+    auto [x,y] = Coordinate::GetXY(coordinate);
+    m_state[x][y] = Cell(std::unique_ptr<IFigure>(new Empty(coordinate)));
 }
 
 void Board::Revert(Coordinate From)

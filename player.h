@@ -18,6 +18,6 @@ public:
 
     const std::vector<Coordinate>& allAvaliableFigures() const;
     void DeleteFigure(Type type, Coordinate coordinate);
-    Info ReturnFigureToBoard(Type type);
+    Info ReturnFigureToBoard();
     const Coordinate kingCoordinate() const;
 };
