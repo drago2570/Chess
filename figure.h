@@ -33,7 +33,7 @@ public:
     virtual ~IFigure() {} //{std::cout << "~IFigure()\n";}
 };
 
-class Pawn final : public IFigure
+class Pawn final : virtual public IFigure
 {
     bool isFirstMove;
     bool isFirstLongMove;
@@ -57,7 +57,7 @@ public:
 };
 
 
-class King final : public IFigure
+class King final : virtual public IFigure
 {
     bool m_isFirstMove;
 public:
@@ -75,22 +75,7 @@ public:
     bool isFirstMove() const;
 };
 
-class Queen final : public IFigure
-{
-public:
-    Queen(int x, char y, Color color)
-        : IFigure(x, y, color, Type::Queen)
-    {}
-    Queen(Info&& info)
-        : IFigure{std::move(info)}
-    {}
-    void UpdateCoordinate(Coordinate To) override;
-    bool CheckMove(Coordinate newCoordinate) override;
-    std::vector<Coordinate> GeneratePossibleMoves() override;
-    ~Queen() {}
-};
-
-class Bishop final : public IFigure
+class Bishop : virtual public IFigure
 {
 public:
     Bishop(int x, char y, Color color)
@@ -99,13 +84,17 @@ public:
     Bishop(Info&& info)
         : IFigure{std::move(info)}
     {}
+    Bishop(int x, char y, Color color, Type type)
+        : IFigure(x, y, color, type)
+    {}
+
     void UpdateCoordinate(Coordinate To) override;
     bool CheckMove(Coordinate newCoordinate) override;
     std::vector<Coordinate> GeneratePossibleMoves() override;
     ~Bishop() {}
 };
 
-class Knight final : public IFigure
+class Knight final : virtual public IFigure
 {
 public:
     Knight(int x, char y, Color color)
@@ -120,7 +109,7 @@ public:
     ~Knight() {}
 };
 
-class Rook final : public IFigure
+class Rook : virtual public IFigure
 {
     bool m_isFirstMove;
 public:
@@ -131,6 +120,10 @@ public:
     Rook(Info&& info)
         : IFigure{std::move(info)}
     {}
+    Rook(int x, char y, Color color, Type type)
+        : IFigure(x, y, color, type)
+    {}
+
     void UpdateCoordinate(Coordinate To) override;
     bool CheckMove(Coordinate newCoordinate) override;
     std::vector<Coordinate> GeneratePossibleMoves() override;
@@ -138,7 +131,23 @@ public:
     bool isFirstMove() const;
 };
 
-class Empty final : public IFigure
+class Queen final : public Bishop, Rook
+{
+public:
+    Queen(int x, char y, Color color)
+        : Bishop(x, y, color, Type::Queen), Rook(x, y, color, Type::Queen)
+    {}
+//    Queen(Info&& info)
+//        : IFigure{std::move(info)}
+//    {}
+    void UpdateCoordinate(Coordinate To) override;
+    bool CheckMove(Coordinate newCoordinate) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override;
+    ~Queen() {}
+};
+
+
+class Empty final : virtual public IFigure
 {
 public:
     Empty() : IFigure() {}
