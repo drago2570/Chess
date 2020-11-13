@@ -2,7 +2,7 @@
 #include "chess.h"
 
 //struct V {
-//    V()
+//    V(int i)
 //    {
 //        std::cout <<"V()\n";
 //    }
@@ -10,9 +10,9 @@
 
 //    virtual ~V() {std::cout << "~V()\n";}
 //};
-//struct A : virtual V {
+//struct A : virtual public V {
 
-//    A() : V()
+//    A(int i) : V(i)
 //    {
 //        std::cout <<"A()\n";
 //    }
@@ -22,9 +22,9 @@
 
 //    virtual ~A() {std::cout << "~A()\n";}
 //};
-//struct B : virtual V {
+//struct B : virtual public V {
 
-//    B() : V()
+//    B(int i) : V(i)
 //    {
 //        std::cout <<"B()\n";
 //    }
@@ -41,8 +41,8 @@
 //    virtual ~B() {std::cout << "~B()\n";}
 
 //};
-//struct D : A, B {
-//    D() : A(), B()
+//struct D : public A, public B {
+//    D(int i) : V(i), A(i), B(i)
 //    {}
 
 //    void f() override {
@@ -52,6 +52,18 @@
 //    virtual ~D() {std::cout << "~D()\n";}
 //};
 
+//struct F : public V
+//{
+//    F(int i) : V(i)
+//    {}
+
+//    void f() override {
+//        std::cout << "B::f()\n";
+//    }
+
+//    virtual ~F() {std::cout << "~F()\n";}
+//};
+
 
 //V* b = new B();
 //V* d = new D();
@@ -59,6 +71,8 @@
 //delete d;
 //delete b;
 
+//    V* d = new D(10);
+//    delete d;
 
 int main()
 {
