@@ -2,12 +2,14 @@
 #include "coordinate.h"
 #include "info.h"
 #include <iostream>
+#include <vector>
 
 // https://www.ideone.com/USljB4
 class IFigure
 {
 protected:
     Info m_info;
+    std::vector<Coordinate> m_avaliableMoves;
 public:
     explicit IFigure(int x, char y, Color color, Type type)
         : m_info{x, y, color, type}
@@ -23,6 +25,7 @@ public:
         : m_info{std::move(info)}
     {}
     virtual void UpdateCoordinate(Coordinate To) = 0;
+    virtual std::vector<Coordinate> GeneratePossibleMoves() = 0;
     virtual bool CheckMove(Coordinate) {return false;};
     Coordinate getCoordinate() const;
     const Info& GetInfo() const;
@@ -48,7 +51,8 @@ public:
         : IFigure{std::move(info)}
     {}
     void UpdateCoordinate(Coordinate To) override;
-    bool CheckMove(Coordinate newCoordinate) override;;
+    bool CheckMove(Coordinate newCoordinate) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override;
     ~Pawn(){} // {std::cout << "~Pawn()\n";}
 };
 
@@ -65,7 +69,8 @@ public:
         : IFigure{std::move(info)}
     {}
     void UpdateCoordinate(Coordinate To) override;
-    bool CheckMove(Coordinate newCoordinate) override;;
+    bool CheckMove(Coordinate newCoordinate) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override;
     ~King() {}
     bool isFirstMove() const;
 };
@@ -80,7 +85,8 @@ public:
         : IFigure{std::move(info)}
     {}
     void UpdateCoordinate(Coordinate To) override;
-    bool CheckMove(Coordinate newCoordinate) override;;
+    bool CheckMove(Coordinate newCoordinate) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override;
     ~Queen() {}
 };
 
@@ -94,7 +100,8 @@ public:
         : IFigure{std::move(info)}
     {}
     void UpdateCoordinate(Coordinate To) override;
-    bool CheckMove(Coordinate newCoordinate) override;;
+    bool CheckMove(Coordinate newCoordinate) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override;
     ~Bishop() {}
 };
 
@@ -108,7 +115,8 @@ public:
         : IFigure{std::move(info)}
     {}
     void UpdateCoordinate(Coordinate To) override;
-    bool CheckMove(Coordinate newCoordinate) override;;
+    bool CheckMove(Coordinate newCoordinate) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override;
     ~Knight() {}
 };
 
@@ -124,7 +132,8 @@ public:
         : IFigure{std::move(info)}
     {}
     void UpdateCoordinate(Coordinate To) override;
-    bool CheckMove(Coordinate newCoordinate) override;;
+    bool CheckMove(Coordinate newCoordinate) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override;
     ~Rook() {}
     bool isFirstMove() const;
 };
@@ -144,6 +153,7 @@ public:
         : IFigure(coordinate.x, coordinate.y, Color::None, Type::Empty)
     {}
     void UpdateCoordinate(Coordinate To) override;
+    std::vector<Coordinate> GeneratePossibleMoves() override {return {};}
 
     ~Empty(){} // {std::cout << "~Empty()\n";}
 };

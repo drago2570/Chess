@@ -57,11 +57,12 @@ void Chess::MakeMove(Coordinate From, Coordinate To)
     m_board.DrawBoard();
 }
 
+// TODO
 bool Chess::IsMoveSafe() const
 {
     auto kingCoordinate = m_players[static_cast<int>(m_currentPlayer)].kingCoordinate();
     decltype(auto) threatFigures = m_players[static_cast<int>(!m_currentPlayer)].allAvaliableFigures();
-
+    // Update board before check
     for(auto& coordinate : threatFigures)
     {
         decltype(auto) figure = m_board.GetCell(coordinate);
@@ -93,6 +94,33 @@ bool Chess::IsCheck(Coordinate coordinate)
     }
 
     return false;
+}
+
+// TODO
+bool Chess::IsCheckmate(Coordinate coordinate, Coordinate kingCoordinate, std::vector<Coordinate> threatFigures)
+{
+    kingCoordinate = m_players[(int)!m_currentPlayer].kingCoordinate();
+    const Cell& kingCell = m_board.GetCell(kingCoordinate);
+
+    // if king can take threat figure by itself
+    if (kingCell.figure->CheckMove(coordinate)
+            && IsMoveSafe())
+        return false;
+    // check if king can move under danger
+    for(auto& move : kingCell.figure->GeneratePossibleMoves())
+    {
+        if(kingCell.figure->CheckMove(move)
+                && m_board.VerificationMove(kingCoordinate, move)
+                && IsMoveSafe())
+        {
+            return false;
+        }
+    }
+
+    threatFigures = m_players[(int)!m_currentPlayer].allAvaliableFigures();
+
+
+    return true;
 }
 
 bool Chess::IsCastlingPosible(Coordinate From, Coordinate To)
