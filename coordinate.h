@@ -1,12 +1,13 @@
 #pragma once
 #include <map>
+#include <istream>
 
 struct Coordinate final
 {
     int x;
     char y;
 
-    Coordinate(short int x, char y)
+    Coordinate(int x, char y)
         :x{x}, y{y}
        {}
 
@@ -28,6 +29,17 @@ struct Coordinate final
     {
         return coordinate.y - 'a';
     }
+
+    static bool ValidateCoordinate(Coordinate coordinate) noexcept
+    {
+        return (coordinate.x >= 0 && coordinate.x <= 7) && ((coordinate.y >= 'a' && coordinate.y <= 'h'));
+    }
+
+    static bool ValidateCoordinate(int x, int y) noexcept
+    {
+        return (x >= 0 && x <= 7) && ((static_cast<char>(y) >= 'a' && static_cast<char>(y) <= 'h'));
+    }
+
     friend bool operator==(Coordinate first, Coordinate second)
     { return first.x == second.x && first.y == second.y; }
 
@@ -37,6 +49,49 @@ struct Coordinate final
     friend bool operator>(Coordinate first, Coordinate second)
     { return first.x > second.x;}
 
+//    friend bool operator<(Coordinate first, Coordinate second)
+//    { return first.x < second.x;}
+
     friend bool operator<(Coordinate first, Coordinate second)
-    { return first.x < second.x;}
+    { return first.y < second.y;}
+
+    friend std::istream& operator >> (std::istream &is, Coordinate &coordinate)
+    {
+        is >> coordinate.x >> coordinate.y;
+        coordinate.y = std::tolower(coordinate.y);
+        return is;
+    }
+
+    Coordinate operator-(std::pair<int, char> coordinate)
+    {
+        auto [_x, _y] = coordinate;
+        return Coordinate(x-_x, y-_y);
+    }
+
+    Coordinate operator-(int x)
+    {
+        return Coordinate(x-x, y);
+    }
+
+    Coordinate operator-(char y)
+    {
+        return Coordinate(x, y-y);
+    }
+
+    Coordinate operator+(std::pair<int, char> coordinate)
+    {
+        auto [_x, _y] = coordinate;
+        return Coordinate(x+_x, y+_y);
+    }
+
+    Coordinate operator+(int x)
+    {
+        return Coordinate(x+x, y);
+    }
+
+
+    Coordinate operator+(char y)
+    {
+        return Coordinate(x, y+y);
+    }
 };

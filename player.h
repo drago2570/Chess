@@ -5,12 +5,19 @@
 
 class Player final
 {
-    std::vector<Coordinate> m_avaliableFigureToReturn;
-    std::vector<Cell> m_allAvaliableFigures;
-    const char* m_color;
+    std::vector<Type> m_avaliableFigureToReturn;
+    std::vector<Coordinate> m_allAvaliableFigures;
+    Color m_color;
+    Coordinate m_kingCoordinate;
+
+    void AddFigureForReturn(Type type);
+    void AddFigure(Coordinate coordinate);
 public:
     Player();
-    Player(const char* color)
-        : m_color{color}
-    {}
+    Player(Color color);
+
+    const std::vector<Coordinate>& allAvaliableFigures() const;
+    void DeleteFigure(Type type, Coordinate coordinate);
+    Info ReturnFigureToBoard();
+    const Coordinate kingCoordinate() const;
 };
