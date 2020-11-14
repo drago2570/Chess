@@ -62,15 +62,9 @@
 
 int main()
 {
-//    Chess chess;
-//    std::cout << "size " << sizeof (chess) << std::endl;
-//    chess.run();
-
-    Bishop a(1,7, Color::Black);
-    a.GeneratePossibleMoves();
-    std::cout << "\n";
-    Bishop b(6,7, Color::Black);
-    b.GeneratePossibleMoves();
+    Chess chess;
+    std::cout << "size " << sizeof (chess) << std::endl;
+    chess.run();
 
     return 0;
 }

@@ -168,64 +168,10 @@ bool Bishop::CheckMove(Coordinate newCoordinate)
 std::vector<Coordinate> Bishop::GeneratePossibleMoves()
 {
     std::vector<Coordinate> possibleMove;
-    std::vector<Coordinate> starts;
 
-    /*
-
-        * * * * * * * *
-        * * * * * * * *
-        * * * * * * * *
-        * * * * * * * *
-        * * * * * * * *
-        * * * * * * * *
-        * * * * * * * *
-        * * * * * * * *
-
-    */
-    std::map<int, std::pair<Coordinate, Coordinate>> leftStart = {
-        {-1, {Coordinate(0,1), Coordinate(6,7)}}, // end Coordinate(6,7)
-        {-2, {Coordinate(0,2), Coordinate(5,7)}}, // end Coordinate(5,7)
-        {-3, {Coordinate(0,3), Coordinate(4,7)}}, // end Coordinate(4,7)
-        {-4, {Coordinate(0,4), Coordinate(3,7)}}, // end Coordinate(3,7)
-        {-5, {Coordinate(0,5), Coordinate(2,7)}}, // end Coordinate(2,7)
-        {-6, {Coordinate(0,6), Coordinate(1,7)}}, // end Coordinate(1,7)
-        {-7, {Coordinate(0,7), Coordinate(0,7)}}, // end Coordinate(0,7)
-
-        {0, {Coordinate(0,0), Coordinate(7,7)}}, // end Coordinate(7,7)
-
-        {1, {Coordinate(1,0), Coordinate(7,6)}}, // end Coordinate(7,6)
-        {2, {Coordinate(2,0), Coordinate(7,5)}}, // end Coordinate(7,5)
-        {3, {Coordinate(3,0), Coordinate(7,4)}}, // end Coordinate(7,4)
-        {4, {Coordinate(4,0), Coordinate(7,3)}}, // end Coordinate(7,3)
-        {5, {Coordinate(5,0), Coordinate(7,2)}}, // end Coordinate(7,2)
-        {6, {Coordinate(6,0), Coordinate(7,1)}}, // end Coordinate(7,1)
-        {7, {Coordinate(7,0), Coordinate(7,0)}}, // end Coordinate(7,0)
-
-    };
-
-    std::map<int, std::pair<Coordinate,Coordinate>> rightStart = {
-        {-1, {Coordinate(1,7), Coordinate(7,1)}}, // end Coordinate(7,1)
-        {-2, {Coordinate(2,7), Coordinate(7,2)}}, // end Coordinate(7,2)
-        {-3, {Coordinate(3,7), Coordinate(7,3)}}, // end Coordinate(7,3)
-        {-4, {Coordinate(4,7), Coordinate(7,4)}}, // end Coordinate(7,4)
-        {-5, {Coordinate(5,7), Coordinate(7,5)}}, // end Coordinate(7,5)
-        {-6, {Coordinate(6,7), Coordinate(7,6)}}, // end Coordinate(7,6)
-        {-7, {Coordinate(7,7), Coordinate(7,7)}}, // end Coordinate(7,7)
-
-        {0, {Coordinate(0,7), Coordinate(7,0)}}, // end Coordinate(7,0)
-
-        {1, {Coordinate(0,6), Coordinate(6,0)}}, // end Coordinate(6,0)
-        {2, {Coordinate(0,5), Coordinate(5,0)}}, // end Coordinate(5,0)
-        {3, {Coordinate(0,4), Coordinate(4,0)}}, // end Coordinate(4,0)
-        {4, {Coordinate(0,3), Coordinate(3,0)}}, // end Coordinate(3,0)
-        {5, {Coordinate(0,2), Coordinate(2,0)}}, // end Coordinate(2,0)
-        {6, {Coordinate(0,1), Coordinate(1,0)}}, // end Coordinate(1,0)
-        {7, {Coordinate(0,0), Coordinate(0,0)}}, // end Coordinate(0,0)
-
-    };
     Coordinate A(0,0);
     Coordinate B(7,7);
-    Coordinate C = m_info.coordinate; // 1,7
+    Coordinate C = m_info.coordinate;
     auto [x1, y1] = Coordinate::GetXY(A);
     auto [x2, y2] = Coordinate::GetXY(B);
     auto [x3, y3] = Coordinate::GetXY(C);
@@ -234,12 +180,9 @@ std::vector<Coordinate> Bishop::GeneratePossibleMoves()
     auto startLeft = D < 0 ? Coordinate(0, -1*D) : Coordinate(D, 0);
     auto endLeft = D < 0 ? Coordinate(7 + D, 7) : Coordinate(7, 7-D);
 
-    std::cout << D << " start " << startLeft << " " << leftStart[D].first
-                << " end " << endLeft << " " << leftStart[D].second << std::endl;
-
     Coordinate K(0,7);
     Coordinate L(7,0);
-    Coordinate M = m_info.coordinate; // 6, 7
+    Coordinate M = m_info.coordinate;
     auto [x11, y11] = Coordinate::GetXY(K);
     auto [x12, y12] = Coordinate::GetXY(L);
     auto [x13, y13] = Coordinate::GetXY(M);
@@ -247,9 +190,6 @@ std::vector<Coordinate> Bishop::GeneratePossibleMoves()
     N = N/7;
     auto startRight = N < 0 ? Coordinate(-1*N, 7): Coordinate(0, 7-N);
     auto endRight = N < 0 ? Coordinate(7, -1*N) : Coordinate(7-N, 0);
-
-    std::cout << N << " start " << startRight << " " << rightStart[N].first
-                << " end " << endRight << " " << rightStart[N].second << std::endl;
 
     return possibleMove;
 }
