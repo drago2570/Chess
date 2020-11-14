@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include <istream>
+#include <sstream>
 
 struct Coordinate final
 {
@@ -11,13 +11,17 @@ struct Coordinate final
         :x{x}, y{y}
        {}
 
+//    Coordinate(int x, int y)
+//        :x{x}, y{static_cast<char>(y+'a')}
+//       {}
+
     Coordinate()
         : x{-1}, y{'z'}
     {}
 
     static std::pair<int, int>GetXY(Coordinate coordinate) noexcept
     {
-        return {coordinate.x, coordinate.y - 'a'};
+        return {coordinate.x, Coordinate::GetY(coordinate)};
     }
 
     static int GetX(Coordinate coordinate) noexcept
@@ -27,7 +31,7 @@ struct Coordinate final
 
     static int GetY(Coordinate coordinate) noexcept
     {
-        return coordinate.y - 'a';
+        return static_cast<int>(coordinate.y);
     }
 
     static bool ValidateCoordinate(Coordinate coordinate) noexcept
@@ -60,6 +64,11 @@ struct Coordinate final
         is >> coordinate.x >> coordinate.y;
         coordinate.y = std::tolower(coordinate.y);
         return is;
+    }
+    friend std::ostream& operator << (std::ostream &os, Coordinate &coordinate)
+    {
+        os << "(" << coordinate.x << "; " << Coordinate::GetY(coordinate) << ")";
+        return os;
     }
 
     Coordinate operator-(std::pair<int, char> coordinate)

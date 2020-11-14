@@ -68,6 +68,9 @@ int main()
 
     Bishop a(1,7, Color::Black);
     a.GeneratePossibleMoves();
+    std::cout << "\n";
+    Bishop b(6,7, Color::Black);
+    b.GeneratePossibleMoves();
 
     return 0;
 }
