@@ -94,4 +94,10 @@ struct Coordinate final
     {
         return Coordinate(x, y+y);
     }
+
+    void ChangeXY(int x, int y)
+    {
+        this->x = this->x + x;
+        this->y = this->y + y;
+    }
 };

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <map>
 #include <algorithm>
+
 Coordinate IFigure::getCoordinate() const
 {
     return m_info.coordinate;
@@ -169,29 +170,91 @@ std::vector<Coordinate> Bishop::GeneratePossibleMoves()
     std::vector<Coordinate> possibleMove;
     std::vector<Coordinate> starts;
 
-    for(int i = 0; i < 8; ++i)
-        if(CheckMove(Coordinate(0, i)))
-            starts.emplace_back(0, i); // first left, second right
+    /*
+        * * * 0 * * * *
+        0 * 0 * * * * *
+        * 1 * * * * * *
+        0 * 0 * * * * *
+        * * * 0 * * * *
+        * * * * 0 * * *
+        * * * * * 0 * *
+        * * * * * * 0 *
 
-    auto maxIteration = [](Coordinate first, Coordinate second) -> int
-    { return first.y > second.y ? first.y + 1 : second.y + 1; };
+        1(2, 1)
 
-    for(int i = 0; maxIteration(starts[0], starts[1]); --i)
-    {
-        auto[x1, y1] = Coordinate::GetXY(starts[0]);
-        auto[x2, y2] = Coordinate::GetXY(starts[1]);
+        0 * * * * * * *
+        * 0 * * * * * *
+        * * 0 * * * * *
+        * * * 0 * * * 0
+        * * * * 0 * 0 *
+        * * * * * 1 * *
+        * * * * 0 * 0 *
+        * * * 0 * * * 0
 
-        if((Coordinate(x1-i, y1-i) != m_info.coordinate)
-                && Coordinate::ValidateCoordinate(x1-i, y1-i))
-        {
-            possibleMove.emplace_back((x1-i), (y1-i));
-        }
-        if((Coordinate(x2-i, y2-i) == m_info.coordinate)
-           && Coordinate::ValidateCoordinate(x2-i, y2-i))
-        {
-            possibleMove.emplace_back((x2-i), (y2-i));
-        }
-    }
+        1(5, 5)
+
+        * * * 1 * * * *
+        * * 0 * 0 * * *
+        * 0 * * * 0 * *
+        0 * * * * * 0 *
+        * * * * * * * 0
+        * * * * * * * *
+        * * * * * * * *
+        * * * * * * * *
+
+        1(0, 3)
+
+    */
+
+    Coordinate A(0,0);
+    Coordinate B(7,7);
+    Coordinate C = m_info.coordinate;
+    auto [x1, y1] = Coordinate::GetXY(A);
+    auto [x2, y2] = Coordinate::GetXY(B);
+    auto [x3, y3] = Coordinate::GetXY(C);
+    int D = (x3-x1) * (y2-y1) - (y3-y1) * (x2-x1);
+
+    std::cout << D << std::endl;
+
+    Coordinate K(0,7);
+    Coordinate L(7,0);
+    Coordinate M = m_info.coordinate;
+    auto [x11, y11] = Coordinate::GetXY(K);
+    auto [x12, y12] = Coordinate::GetXY(L);
+    auto [x13, y13] = Coordinate::GetXY(M);
+    int N = (x13-x11) * (y12-y11) - (y13-y11) * (x12-x11);
+
+    std::cout << N << std::endl;
+
+//    auto currentCoordinate = m_info.coordinate;
+
+//    // left up corner
+//    auto startPosition = currentCoordinate-std::make_pair<int, char>(1,static_cast<char>(1));
+//    for(int i = 1; Coordinate::ValidateCoordinate(startPosition); ++i)
+//    {
+//        startPosition.ChangeXY(-i,-i);
+//    }
+
+//    // right down corner
+//    startPosition = currentCoordinate+std::make_pair<int, char>( 1,static_cast<char>(1) );
+//    for(int i = 1; Coordinate::ValidateCoordinate(startPosition); ++i)
+//    {
+//        startPosition.ChangeXY(i,i);
+//    }
+
+//    // right up corner
+//    startPosition = currentCoordinate+std::make_pair<int, char>(-1, static_cast<char>(1) );
+//    for(int i = 1; Coordinate::ValidateCoordinate(startPosition); ++i)
+//    {
+//        startPosition.ChangeXY(-i,i);
+//    }
+
+//    // left down corner
+//    startPosition = currentCoordinate+std::make_pair<int, char>( 1, -static_cast<char>(1) );
+//    for(int i = 1; Coordinate::ValidateCoordinate(startPosition); ++i)
+//    {
+//        startPosition.ChangeXY(i,-i);
+//    }
 
     return possibleMove;
 }
