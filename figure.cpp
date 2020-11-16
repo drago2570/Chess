@@ -24,17 +24,17 @@ bool Pawn::CheckMove(Coordinate newCoordinate)
 {
     if(m_info.coordinate == newCoordinate) return false;
 
-    constexpr const int BOARD_SIZE = 8;
-    int x1 = m_info.coordinate.x;
-    int x2 = newCoordinate.x;
+    constexpr const int BOARD_SIZE = 7;
+    int x1 = m_info.coordinate.x; // a6
+    int x2 = newCoordinate.x; // a4
 
     if(m_info.color == Color::White)
     {
-        x1 = BOARD_SIZE - m_info.coordinate.x;
-        x2 = BOARD_SIZE - newCoordinate.x;
+        x1 = BOARD_SIZE - m_info.coordinate.x; // 7 - 6 = 1
+        x2 = BOARD_SIZE - newCoordinate.x; // 7 - 4 = 3
     }
 
-    if(x2 > x1)
+    if(x2 > x1) // 3 > 1 -> ok
     {
 
         if(!isFirstMove && ( abs(m_info.coordinate.x - newCoordinate.x) == 2 && m_info.coordinate.y == newCoordinate.y))

@@ -17,7 +17,7 @@ Board::Board()
     for(int i = 0; i < 8; ++i, ++c)
     {
         m_state[1][i] = Cell(std::unique_ptr<IFigure>(new Pawn(1, c, Color::Black)));
-        m_state[6][i] = Cell(std::unique_ptr<IFigure>(new Pawn(7, c, Color::White)));
+        m_state[6][i] = Cell(std::unique_ptr<IFigure>(new Pawn(6, c, Color::White)));
     }
 
     m_state[7][0] = Cell(std::unique_ptr<IFigure>(new Rook(7, 'a', Color::Black)));

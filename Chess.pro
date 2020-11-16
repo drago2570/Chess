@@ -17,4 +17,5 @@ HEADERS += \
     coordinate.h \
     figure.h \
     info.h \
-    player.h
+    player.h \
+    utils.h

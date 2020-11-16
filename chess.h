@@ -13,7 +13,8 @@ class Chess final
     bool IsMoveSafe() const;
     std::pair<Coordinate, Coordinate> ReadFromUser();
     bool IsCheck(Coordinate coordinate); // шах
-    bool IsCheckmate(Coordinate coordinate, Coordinate kingCoordinate, std::vector<Coordinate> threatFigures); // мат
+    void ClearTerminal() const;
+    bool IsCheckmate(Coordinate coordinate); // мат
     bool IsCastlingPosible(Coordinate From, Coordinate To); // рокировка
     bool IsStalemate(); // пат
 public:

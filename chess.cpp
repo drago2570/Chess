@@ -1,5 +1,6 @@
 #include "chess.h"
 #include <iostream>
+#include <cstdlib>
 
 Chess::Chess()
     : m_board(Board::instance()),
@@ -18,42 +19,33 @@ void Chess::MakeMove(Coordinate From, Coordinate To)
     const Cell& cellTo = m_board.GetCell(To);
 
     if(cellFrom.figure->CheckMove(To)
-            && m_board.VerificationMove(From, To)
-            && cellTo.figure->GetInfo().type == Type::Empty)
+            && m_board.VerificationMove(From, To))
     {
-        cellFrom.figure->UpdateCoordinate(To);
-//        m_board.SetCoordinateForPreview(From); need to do
+        m_players[(int)m_currentPlayer].UpdateCoordinateForPlayer(From, To);
 
         if(IsMoveSafe())
         {
-            if (cellFrom.figure->GetInfo().color != cellTo.figure->GetInfo().color
-                    && cellTo.figure->GetInfo().type != Type::Empty)
+            if (/*cellFrom.figure->GetInfo().color != cellTo.figure->GetInfo().color
+                    && */cellTo.figure->GetInfo().type != Type::Empty)
             {
                 m_board.MakeCellEmpty(To);
             }
 
+            cellFrom.figure->UpdateCoordinate(To);
             m_board.UpdateBoard(From, To);
         }
         else
         {
-            m_board.Revert(From);
+            m_players[(int)m_currentPlayer].UpdateCoordinateForPlayer(To, From);
         }
 
-//        if(!IsCheck(To)
-//        {
-//            m_board.UpdateBoard(From, To);
-//        }
-//        else
-//        {
-//            m_board.Revert(From);
-//        }
         m_currentPlayer = !m_currentPlayer;
     }
     else
     {
         std::cout << "invalid move\n";
     }
-
+    ClearTerminal();
     m_board.DrawBoard();
 }
 
@@ -96,10 +88,19 @@ bool Chess::IsCheck(Coordinate coordinate)
     return false;
 }
 
-// TODO
-bool Chess::IsCheckmate(Coordinate coordinate, Coordinate kingCoordinate, std::vector<Coordinate> threatFigures)
+void Chess::ClearTerminal() const
 {
-    kingCoordinate = m_players[(int)!m_currentPlayer].kingCoordinate();
+#ifdef __unix__
+    std::system("clear");
+#elif defined(_WIN32)
+    std::system("cls");
+#endif
+}
+
+// TODO
+bool Chess::IsCheckmate(Coordinate coordinate)
+{
+    Coordinate kingCoordinate = m_players[(int)!m_currentPlayer].kingCoordinate();
     const Cell& kingCell = m_board.GetCell(kingCoordinate);
 
     // if king can take threat figure by itself
@@ -117,7 +118,7 @@ bool Chess::IsCheckmate(Coordinate coordinate, Coordinate kingCoordinate, std::v
         }
     }
 
-    threatFigures = m_players[(int)!m_currentPlayer].allAvaliableFigures();
+    auto threatFigures = m_players[(int)!m_currentPlayer].allAvaliableFigures();
 
 
     return true;
@@ -137,24 +138,41 @@ bool Chess::IsCastlingPosible(Coordinate From, Coordinate To)
     return false;
 }
 
+bool Chess::IsStalemate()
+{
+    for(auto& figureCoordinate : m_players[(int)m_currentPlayer].allAvaliableFigures() )
+        if(m_board.GetCell(figureCoordinate).figure->GeneratePossibleMoves().size() != 0)
+            return false;
+
+    return true;
+}
+
 void Chess::run()
 {
     m_board.DrawBoard();
 
-    auto[From, To] = ReadFromUser();
-
-    if( !Coordinate::ValidateCoordinate(From)
-            || !Coordinate::ValidateCoordinate(To) )
+    while(true)
     {
-        std::cout << "invalid coordinates\n";
+        auto[From, To] = ReadFromUser();
+
+        if( !Coordinate::ValidateCoordinate(From)
+            || !Coordinate::ValidateCoordinate(To) )
+        {
+            std::cout << "invalid coordinates\n";
+        }
+
+        if(m_board.GetCell(From).figure->GetInfo().color == m_currentPlayer)
+        {
+            MakeMove(From, To);
+            // TODO
+            if((IsCheck(To) && IsCheckmate(To)))
+            {
+                exit(0);
+            }
+            else
+            {
+                IsStalemate();
+            }
+        }
     }
-
-    MakeMove(From, To);
-//    MakeMove(Coordinate(1, 'a'), Coordinate(2, 'a'));
-//    MakeMove(Coordinate(2, 'a'), Coordinate(1, 'a'));
-
-//    if((IsCheck() && IsCheckmate()) || IsStalemate())
-//    {
-//        exit(0);
-//    }
 }

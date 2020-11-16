@@ -31,7 +31,7 @@ struct Coordinate final
 
     static int GetY(Coordinate coordinate) noexcept
     {
-        return static_cast<int>(coordinate.y);
+        return static_cast<int>(coordinate.y-'a');
     }
 
     static bool ValidateCoordinate(Coordinate coordinate) noexcept
@@ -61,7 +61,7 @@ struct Coordinate final
 
     friend std::istream& operator >> (std::istream &is, Coordinate &coordinate)
     {
-        is >> coordinate.x >> coordinate.y;
+        is >> coordinate.y >> coordinate.x;
         coordinate.y = std::tolower(coordinate.y);
         return is;
     }
