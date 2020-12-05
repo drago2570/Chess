@@ -20,7 +20,6 @@ public:
     void DeleteFigure(Type type, Coordinate coordinate);
     Info ReturnFigureToBoard();
     const Coordinate kingCoordinate() const;
-    Coordinate UpdateCoordinateForPlayer(Coordinate From, Coordinate To);
-    void UpdateKingCoordinate(Coordinate newCoordinate);
-//    void UpdateCoordinateForPlayer(Coordinate newCoordnate);
+    std::size_t UpdateCoordinateForPlayer(Coordinate From, Coordinate To);
+    void UpdateCoordinateForPlayer(size_t position, Coordinate coordinate);
 };

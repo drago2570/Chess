@@ -36,21 +36,26 @@ const Coordinate Player::kingCoordinate() const
     return m_kingCoordinate;
 }
 
-Coordinate Player::UpdateCoordinateForPlayer(Coordinate From, Coordinate To)
+std::size_t Player::UpdateCoordinateForPlayer(Coordinate From, Coordinate To)
 {
     auto it = find(begin(m_allAvaliableFigures), end(m_allAvaliableFigures), From);
-    auto currentCoordinate = *it;
+//    auto currentCoordinate = *it;
     *it = std::move(To);
     if(From == m_kingCoordinate)
     {
         m_kingCoordinate = *it;
     }
-    return currentCoordinate;
+    return std::distance(begin(m_allAvaliableFigures), it);
 }
 
-void Player::UpdateKingCoordinate(Coordinate newCoordinate)
+void Player::UpdateCoordinateForPlayer(size_t position, Coordinate coordinate)
 {
-    m_kingCoordinate = newCoordinate;
+    if(coordinate == m_kingCoordinate)
+    {
+        m_kingCoordinate = coordinate;
+    }
+
+    m_allAvaliableFigures[position] = coordinate;
 }
 
 void Player::AddFigureForReturn(Type type)

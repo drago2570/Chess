@@ -10,7 +10,7 @@ class Chess final
 
     void Castilng(Coordinate From, Coordinate To);
     void MakeMove(Coordinate From, Coordinate To);
-    bool IsMoveSafe() const;
+    bool IsMoveSafe(Coordinate From, Coordinate To);
     std::pair<Coordinate, Coordinate> ReadFromUser();
     bool IsCheck(Coordinate coordinate); // шах
     void ClearTerminal() const;
