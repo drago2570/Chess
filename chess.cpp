@@ -14,6 +14,47 @@ Color operator!(Color color)
     return color == Color::Black ? Color::White : Color::Black;
 }
 
+void Chess::Castilng(Coordinate From, Coordinate To) // From - king, To - rook
+{
+    const Cell& cellFrom = m_board.GetCell(From); // king
+    const Cell& cellTo = m_board.GetCell(To); // rook
+
+    if(cellFrom.figure->GetInfo().color == Color::White)
+    {
+        if(cellFrom.figure->getCoordinate().y < cellTo.figure->getCoordinate().y)
+        {
+            cellFrom.figure->UpdateCoordinate(Coordinate(7, 'c')); // king
+            m_board.UpdateBoard(From, Coordinate(7, 'c'));
+            cellTo.figure->UpdateCoordinate(Coordinate(7, 'd')); // rook
+            m_board.UpdateBoard(From, Coordinate(7, 'd'));
+        }
+        else
+        {
+            cellFrom.figure->UpdateCoordinate(Coordinate(7, 'g')); // king
+            m_board.UpdateBoard(From, Coordinate(7, 'g'));
+            cellTo.figure->UpdateCoordinate(Coordinate(7, 'f')); // rook
+            m_board.UpdateBoard(From, Coordinate(7, 'f'));
+        }
+    }
+    else if(cellFrom.figure->GetInfo().color == Color::Black)
+    {
+        if(cellFrom.figure->getCoordinate().y < cellTo.figure->getCoordinate().y)
+        {
+            cellFrom.figure->UpdateCoordinate(Coordinate(0, 'c')); // king
+            m_board.UpdateBoard(From, Coordinate(0, 'c'));
+            cellTo.figure->UpdateCoordinate(Coordinate(0, 'd')); // rook
+            m_board.UpdateBoard(From, Coordinate(0, 'd'));
+        }
+        else
+        {
+            cellFrom.figure->UpdateCoordinate(Coordinate(0, 'g')); // king
+            m_board.UpdateBoard(From, Coordinate(0, 'g'));
+            cellTo.figure->UpdateCoordinate(Coordinate(0, 'f')); // rook
+            m_board.UpdateBoard(From, Coordinate(0, 'f'));
+        }
+    }
+}
+
 void Chess::MakeMove(Coordinate From, Coordinate To)
 {
     const Cell& cellFrom = m_board.GetCell(From);
@@ -163,15 +204,40 @@ bool Chess::IsCastlingPosible(Coordinate From, Coordinate To)
     if( (cellFrom.figure->GetInfo().type == Type::King && !dynamic_cast<King*>(cellFrom.figure.get())->isFirstMove())
             && (cellTo.figure->GetInfo().type == Type::Rook && !dynamic_cast<Rook*>(cellTo.figure.get())->isFirstMove()) )
     {
-        return true;
+        auto opponentFiguresCoordinate = m_players[(int)m_currentPlayer].allAvaliableFigures();
+
+        std::vector<Coordinate> castlingWay = { m_players[(int)m_currentPlayer].kingCoordinate()};
+        int raw = cellFrom.figure->GetInfo().color == Color::White ? 7 : 0;
+
+        if(cellFrom.figure->getCoordinate().y < cellTo.figure->getCoordinate().y)
+        {
+            castlingWay.emplace_back(raw, 'c');
+            castlingWay.emplace_back(raw, 'd');
+        }
+        else
+        {
+            castlingWay.emplace_back(raw, 'f');
+            castlingWay.emplace_back(raw, 'g');
+        }
+
+        for(const auto& castlingCell : castlingWay)
+        {
+            for(const auto& coordinate : opponentFiguresCoordinate)
+            {
+                if( const Cell& cell = m_board.GetCell(coordinate); cell.figure->CheckMove(castlingCell) )
+                {
+                    return false;
+                }
+            }
+        }
     }
-    // TODO: Check line from king to Rook
+
     return false;
 }
 
 bool Chess::IsStalemate()
 {
-    for(auto& figureCoordinate : m_players[(int)m_currentPlayer].allAvaliableFigures() )
+    for(auto& figureCoordinate : m_players[(int)m_currentPlayer].allAvaliableFigures())
         if(m_board.GetCell(figureCoordinate).figure->GeneratePossibleMoves().empty())
             return false;
 

@@ -20,14 +20,14 @@ Board::Board()
         m_state[6][i] = Cell(std::unique_ptr<IFigure>(new Pawn(6, c, Color::White)));
     }
 
-    m_state[7][0] = Cell(std::unique_ptr<IFigure>(new Rook(7, 'a', Color::Black)));
-    m_state[7][1] = Cell(std::unique_ptr<IFigure>(new Knight(7, 'b', Color::Black)));
-    m_state[7][2] = Cell(std::unique_ptr<IFigure>(new Bishop(7, 'c', Color::Black)));
-    m_state[7][3] = Cell(std::unique_ptr<IFigure>(new Queen(7, 'd', Color::Black)));
-    m_state[7][4] = Cell(std::unique_ptr<IFigure>(new King(7, 'e', Color::Black)));
-    m_state[7][5] = Cell(std::unique_ptr<IFigure>(new Bishop(7, 'f', Color::Black)));
-    m_state[7][6] = Cell(std::unique_ptr<IFigure>(new Knight(7, 'g', Color::Black)));
-    m_state[7][7] = Cell(std::unique_ptr<IFigure>(new Rook(7, 'h', Color::Black)));
+    m_state[7][0] = Cell(std::unique_ptr<IFigure>(new Rook(7, 'a', Color::White)));
+    m_state[7][1] = Cell(std::unique_ptr<IFigure>(new Knight(7, 'b', Color::White)));
+    m_state[7][2] = Cell(std::unique_ptr<IFigure>(new Bishop(7, 'c', Color::White)));
+    m_state[7][3] = Cell(std::unique_ptr<IFigure>(new Queen(7, 'd', Color::White)));
+    m_state[7][4] = Cell(std::unique_ptr<IFigure>(new King(7, 'e', Color::White)));
+    m_state[7][5] = Cell(std::unique_ptr<IFigure>(new Bishop(7, 'f', Color::White)));
+    m_state[7][6] = Cell(std::unique_ptr<IFigure>(new Knight(7, 'g', Color::White)));
+    m_state[7][7] = Cell(std::unique_ptr<IFigure>(new Rook(7, 'h', Color::White)));
 }
 
 bool Board::CheckDiagonal(Coordinate From, Coordinate To) const
